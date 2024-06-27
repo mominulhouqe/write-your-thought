@@ -1,9 +1,11 @@
 import React from "react";
 import { Button } from "antd";
 import { useForm } from "react-hook-form";
-import { motion } from "framer-motion";
+import { motion, transform } from "framer-motion";
 import AuthLayout from "../../components/AuthLayout";
-import { GoogleOutlined } from "@ant-design/icons";
+import GoogleSign from "../../components/GoogleSign";
+import AnimationThought from "../../components/AnimationThought";
+import BorderCircle from "../../components/BorderCicle";
 
 interface RegisterFormInputs {
   email: string;
@@ -25,20 +27,28 @@ const Register: React.FC = () => {
 
   const handleGoogleSignIn = () => {
     // Handle Google Sign-In logic here
+    console.log("Signing in with Google...");
   };
+
 
   return (
     <AuthLayout>
+<div className=" h-screen fixed top-0 flex overflow-hidden">
+<AnimationThought ></AnimationThought>
+<BorderCircle />
+</div>
       <motion.div
-        className="max-w-xl w-full space-y-8 border rounded-lg shadow-lg bg-[#F0F2F5] bg-opacity-45 p-6"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
+        className="container mx-auto w-full  border rounded-lg shadow-lg bg-[#F0F2F5] bg-opacity-45 p-6"
+        initial={{ translateY: 1000,  }}
+        animate={{ translateY: 0,  }}
+        transition={{ duration: 0.8 , delay:1.2}}
+        
       >
         <h2 className="text-center text-3xl font-extrabold text-gray-900">
-          Create your account Thoughts
+          Create  account on <span className="text-blue-600 underline">Thought</span>
         </h2>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <label
               htmlFor="name"
@@ -90,14 +100,7 @@ const Register: React.FC = () => {
         <div className="flex items-center justify-center space-x-2 mt-4">
           <div className="text-gray-500">or</div>
         </div>
-        <Button
-          type="default"
-          icon={<GoogleOutlined />}
-          className="w-full mt-2"
-          onClick={handleGoogleSignIn}
-        >
-          Sign in with Google
-        </Button>
+        <GoogleSign onClick={handleGoogleSignIn} className="mt-2" />
       </motion.div>
     </AuthLayout>
   );

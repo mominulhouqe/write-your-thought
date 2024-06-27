@@ -5,6 +5,9 @@ import { motion } from "framer-motion";
 
 import { GoogleOutlined } from "@ant-design/icons";
 import AuthLayout from "../../components/AuthLayout";
+import GoogleSign from "../../components/GoogleSign";
+import AnimationThought from "../../components/AnimationThought";
+import BorderCircle from "../../components/BorderCicle";
 
 interface LoginFormInputs {
   email: string;
@@ -24,20 +27,26 @@ const Login: React.FC = () => {
 
   const handleGoogleSignIn = () => {
     // Handle Google Sign-In logic here
+    console.log("Signing in with Google...");
   };
+
 
   return (
     <AuthLayout>
+      <div className="abs z-0 flex overflow-hidden">
+<AnimationThought ></AnimationThought>
+<BorderCircle />
+</div>
       <motion.div
-        className="max-w-xl w-full space-y-8 border rounded-lg shadow-lg bg-[#F0F2F5] bg-opacity-45  p-6"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
+        className="max-w-xl w-full overflow-hidden space-y-8 border rounded-lg shadow-lg bg-[#F0F2F5] bg-opacity-45  p-6"
+        initial={{ translateY: 1000,  }}
+        animate={{ translateY: 0,  }}
+        transition={{ duration: 0.8 , delay:1.2}}
       >
         <h2 className="text-center text-3xl font-extrabold text-gray-900">
-          Sign in to your account
+          Welcom in <span className="text-blue-600 underline">Thought</span> Account
         </h2>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <label
               htmlFor="email"
@@ -55,7 +64,7 @@ const Login: React.FC = () => {
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-gray-700 "
             >
               Password
             </label>
@@ -75,14 +84,7 @@ const Login: React.FC = () => {
         <div className="flex items-center justify-center space-x-2 mt-4">
           <div className="text-gray-500">or</div>
         </div>
-        <Button
-          type="default"
-          icon={<GoogleOutlined />}
-          className="w-full mt-2"
-          onClick={handleGoogleSignIn}
-        >
-          Sign in with Google
-        </Button>
+        <GoogleSign onClick={handleGoogleSignIn} className="mt-2" />
       </motion.div>
     </AuthLayout>
   );
