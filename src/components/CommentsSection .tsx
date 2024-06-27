@@ -1,18 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent } from "react";
 import { Input, Button, List, message } from "antd";
 import { CommentOutlined } from "@ant-design/icons";
-const CommentsSection = ({ comments, addComment }) => {
-  const [comment, setComment] = useState("");
-  const [showAllComments, setShowAllComments] = useState(false);
 
-  const handleCommentChange = (e) => {
-    setComment(e.target.value);
+interface Comment {
+  id: number;
+  text: string;
+  author: string;
+}
+
+interface CommentsSectionProps {
+  comments: Comment[];
+  addComment: (comment: Comment) => void;
+}
+
+const CommentsSection: React.FC<CommentsSectionProps> = ({ comments, addComment }) => {
+  const [commentText, setCommentText] = useState<string>("");
+  const [showAllComments, setShowAllComments] = useState<boolean>(false);
+
+  const handleCommentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setCommentText(e.target.value);
   };
 
   const handleCommentSubmit = () => {
-    if (comment.trim()) {
-      addComment(comment);
-      setComment("");
+    if (commentText.trim()) {
+      const newComment: Comment = {
+        id: comments.length + 1,
+        text: commentText,
+        author: "Current User", // You might want to replace this with actual user data
+      };
+      addComment(newComment);
+      setCommentText("");
       message.success("Comment added");
     } else {
       message.error("Comment cannot be empty");
@@ -30,10 +47,10 @@ const CommentsSection = ({ comments, addComment }) => {
       <div className="flex justify-center items-start">
         <Input.TextArea
           rows={1}
-          value={comment}
+          value={commentText}
           onChange={handleCommentChange}
           placeholder="Write a comment..."
-          className=" rounded-e-none"
+          className="rounded-e-none"
         />
         <Button
           type="primary"
@@ -46,9 +63,7 @@ const CommentsSection = ({ comments, addComment }) => {
       {comments.length > 0 && (
         <List
           className="mt-4"
-          header={`${comments.length} ${
-            comments.length === 1 ? "Comment" : "Comments"
-          }`}
+          header={`${comments.length} ${comments.length === 1 ? "Comment" : "Comments"}`}
           dataSource={commentsToShow}
           renderItem={(item) => (
             <List.Item>
@@ -60,8 +75,8 @@ const CommentsSection = ({ comments, addComment }) => {
                     alt="Avatar"
                   />
                 }
-                title="Person Name"
-                description={item}
+                title={item.author}
+                description={item.text}
               />
             </List.Item>
           )}

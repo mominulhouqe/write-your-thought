@@ -15,13 +15,13 @@ interface LoginFormInputs {
 const Login: React.FC = () => {
   const { register, handleSubmit } = useForm<LoginFormInputs>();
 
-  const onSubmit = async (data: LoginFormInputs) => {
-    const userInfo = {
-      email: data.email,
-      password: data.password,
-    };
-    // Handle login logic here
-  };
+  // const onSubmit = async (data: LoginFormInputs) => {
+  //   const userInfo = {
+  //     email: data.email,
+  //     password: data.password,
+  //   };
+  // };
+  // Handle login logic here
 
   const handleGoogleSignIn = () => {
     // Handle Google Sign-In logic here

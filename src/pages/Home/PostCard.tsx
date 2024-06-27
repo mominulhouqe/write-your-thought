@@ -1,34 +1,36 @@
 import React, { useState } from 'react';
-import { Card,  } from "antd";
+import { Card } from "antd";
 import { LikeOutlined, LikeFilled, CommentOutlined } from "@ant-design/icons";
 import PostActionsMenu from '../../components/PostActionsMenu';
 import CommentsSection from '../../components/CommentsSection ';
 
 
-const PostCard = () => {
-  const [likes, setLikes] = useState(0);
-  const [liked, setLiked] = useState(false);
-  const [comments, setComments] = useState([]);
+interface Comment {
+  id: number;
+  text: string;
+  author: string;
+}
+
+const PostCard: React.FC = () => {
+  const [likes, setLikes] = useState<number>(0);
+  const [liked, setLiked] = useState<boolean>(false);
+  const [comments, setComments] = useState<Comment[]>([]);
 
   const handleLike = () => {
-    if (liked) {
-      setLikes(likes - 1);
-    } else {
-      setLikes(likes + 1);
-    }
+    setLikes(liked ? likes - 1 : likes + 1);
     setLiked(!liked);
   };
 
-  const addComment = (comment) => {
+  const addComment = (comment: Comment) => {
     setComments([...comments, comment]);
   };
 
   return (
-    <div className="mt-6  px-1">
+    <div className="mt-6 px-1">
       <Card
         className="shadow-lg my-2"
         actions={[
-          <span onClick={handleLike}>
+          <span onClick={handleLike} key="like">
             {liked ? <LikeFilled /> : <LikeOutlined />} {likes}
           </span>,
           <CommentOutlined key="comment" />,
@@ -53,7 +55,7 @@ const PostCard = () => {
             alt="Post"
           />
           <p className="text-gray-700">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Unde tempora deserunt quae aperiam nulla, atque odio in iste non accusamus officia aspernatur quia architecto magni asperiores perferendis maxime ullam omnis.  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nisi
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Unde tempora deserunt quae aperiam nulla, atque odio in iste non accusamus officia aspernatur quia architecto magni asperiores perferendis maxime ullam omnis. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nisi
           </p>
         </div>
         <CommentsSection comments={comments} addComment={addComment} />
