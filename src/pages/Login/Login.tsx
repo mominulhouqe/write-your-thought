@@ -2,8 +2,6 @@ import React from "react";
 import { Button } from "antd";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
-
-import { GoogleOutlined } from "@ant-design/icons";
 import AuthLayout from "../../components/AuthLayout";
 import GoogleSign from "../../components/GoogleSign";
 import AnimationThought from "../../components/AnimationThought";

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, message } from "antd";
+import { Card,  } from "antd";
 import { LikeOutlined, LikeFilled, CommentOutlined } from "@ant-design/icons";
 import PostActionsMenu from '../../components/PostActionsMenu';
 import CommentsSection from '../../components/CommentsSection ';

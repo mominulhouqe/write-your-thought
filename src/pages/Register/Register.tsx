@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "antd";
 import { useForm } from "react-hook-form";
-import { motion, transform } from "framer-motion";
+import { motion, } from "framer-motion";
 import AuthLayout from "../../components/AuthLayout";
 import GoogleSign from "../../components/GoogleSign";
 import AnimationThought from "../../components/AnimationThought";

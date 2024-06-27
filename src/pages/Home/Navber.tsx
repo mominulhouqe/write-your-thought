@@ -29,7 +29,7 @@ const Navber = () => {
       </div>
  
       {open && (
-        <div className="md:hidden bg-slate-100 py-4">
+        <div className="md:hidden bg-slate-100 py-4 mt-12">
           <ul className="flex flex-col items-center">
           <li className="mx-2">
             <a href="#">Home</a>
