@@ -37,7 +37,19 @@ const postApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Post"],
     }),
+    addLikeComment: builder.mutation({
+      query: ({ postId, ...data }) => ({
+        url: `/posts/edit/add-like-comment/${postId}`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["Post"],
+    }),
   }),
 });
 
-export const { useAddPostMutation, useGetAllPostsQuery } = postApi;
+export const {
+  useAddPostMutation,
+  useGetAllPostsQuery,
+  useAddLikeCommentMutation,
+} = postApi;
