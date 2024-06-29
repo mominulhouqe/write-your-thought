@@ -19,7 +19,6 @@ const Navber: React.FC = () => {
     try {
       await logoutReq({}).unwrap();
       dispatch(logout());
-      navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);
     }
@@ -47,13 +46,13 @@ const Navber: React.FC = () => {
         </Link>
         <ul className="hidden md:flex items-center text-lg">
           <li className="mx-4">
-            <a href="#">Home</a>
+            <Link to="/">Home</Link>
           </li>
           <li className="mx-4">
-            <a href="#">Blogs</a>
+            <Link to="/blogs">Blogs</Link>
           </li>
           <li className="mx-4">
-            <a href="#">About</a>
+            <Link to="/about">About</Link>
           </li>
           {userInfo?.email ? (
             <li className="relative mx-2 flex items-center">
