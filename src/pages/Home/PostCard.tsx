@@ -81,7 +81,7 @@ const PostCard: React.FC = () => {
         >
           <div className="flex items-center mb-4">
             <img
-              className="w-10 h-10 border border-green-700 rounded-full"
+              className="w-10 h-10 border-2 border-blue-500 rounded-full"
               src={
                 post?.user_info?.avatar?.url ||
                 "https://api.dicebear.com/7.x/miniavs/svg?seed=8"
