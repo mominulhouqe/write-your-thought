@@ -1,8 +1,25 @@
-import  { useState } from 'react';
+import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import { logout, useUserInfo } from "../../redux/features/auth/authSlice";
+import { useNavigate } from "react-router-dom";
+import { useLogoutReqMutation } from "../../redux/features/auth/authApi";
 
 const Navber = () => {
-
   const [open, setOpen] = useState(false);
+  const userInfo = useAppSelector(useUserInfo);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const [logoutReq, { isLoading }] = useLogoutReqMutation();
+
+  const handleLogout = async () => {
+    try {
+      const res = await logoutReq({}).unwrap();
+      dispatch(logout());
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
@@ -18,6 +35,15 @@ const Navber = () => {
           <li className="mx-2">
             <a href="#">About</a>
           </li>
+          {userInfo?.email ? (
+            <li onClick={handleLogout} className="mx-2">
+              <a href="#">Logout</a>
+            </li>
+          ) : (
+            <li onClick={() => navigate("/login")} className="mx-2">
+              <a href="#">Login</a>
+            </li>
+          )}
         </ul>
         <button
           type="button"
@@ -27,22 +53,31 @@ const Navber = () => {
           Menu
         </button>
       </div>
- 
+
       {open && (
         <div className="md:hidden bg-slate-100 py-4 mt-12">
           <ul className="flex flex-col items-center">
-          <li className="mx-2">
-            <a href="#">Home</a>
-          </li>
-          <li className="mx-2">
-            <a href="#">Blogs</a>
-          </li>
-          <li className="mx-2">
-            <a href="#">About</a>
-          </li>
+            <li className="mx-2">
+              <a href="#">Home</a>
+            </li>
+            <li className="mx-2">
+              <a href="#">Blogs</a>
+            </li>
+            <li className="mx-2">
+              <a href="#">About</a>
+            </li>
+            {userInfo?.email ? (
+              <li onClick={() => dispatch(logout())} className="mx-2">
+                <a href="#">Logout</a>
+              </li>
+            ) : (
+              <li onClick={() => navigate("/login")} className="mx-2">
+                <a href="#">Login</a>
+              </li>
+            )}
           </ul>
         </div>
-      )} 
+      )}
     </div>
   );
 };
