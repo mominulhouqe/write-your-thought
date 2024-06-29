@@ -2,7 +2,16 @@
 import { Menu, Dropdown, Button, message, Modal } from 'antd';
 import { EditOutlined, DeleteOutlined, CopyOutlined, MoreOutlined } from "@ant-design/icons";
 
-const PostActionsMenu = () => {
+
+interface PostActionsMenuProps {
+  postId: string;
+}
+
+
+const PostActionsMenu = (postId:PostActionsMenuProps) => {
+
+
+
   const handleEdit = () => {
     message.info("Edit action clicked");
   };
@@ -17,6 +26,8 @@ const PostActionsMenu = () => {
   };
 
   const handleCopy = () => {
+    console.log(postId);
+    
     navigator.clipboard
       .writeText(
         "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nisi laboriosam praesentium voluptatibus obcaecati, magnam eum sapiente eos dolores iusto officiis suscipit. Voluptatibus natus dolores laboriosam. At asperiores quidem voluptas."
