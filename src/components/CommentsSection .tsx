@@ -13,7 +13,10 @@ interface CommentsSectionProps {
   addComment: (comment: Comment) => void;
 }
 
-const CommentsSection: React.FC<CommentsSectionProps> = ({ comments, addComment }) => {
+const CommentsSection: React.FC<CommentsSectionProps> = ({
+  comments,
+  addComment,
+}) => {
   const [commentText, setCommentText] = useState<string>("");
   const [showAllComments, setShowAllComments] = useState<boolean>(false);
 
@@ -46,31 +49,32 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({ comments, addComment 
     <div>
       <div className="flex justify-center items-start">
         <Input.TextArea
-          rows={1}
           value={commentText}
           onChange={handleCommentChange}
           placeholder="Write a comment..."
-          className="rounded-e-none"
+          className="rounded-e-none h-14"
         />
         <Button
           type="primary"
           onClick={handleCommentSubmit}
-          className="border-none rounded-l-none"
+          className="border-none rounded-l-none h-14"
         >
           <CommentOutlined />
         </Button>
       </div>
       {comments.length > 0 && (
         <List
-          className="mt-4"
-          header={`${comments.length} ${comments.length === 1 ? "Comment" : "Comments"}`}
+          className="mt-2 px-4"
+          header={`${comments.length} ${
+            comments.length === 1 ? "Comment" : "Comments"
+          }`}
           dataSource={commentsToShow}
           renderItem={(item) => (
             <List.Item>
               <List.Item.Meta
                 avatar={
                   <img
-                    className="w-6 h-6 border border-green-700 rounded-full"
+                    className="w-8 h-8 border border-blue-500 rounded-full"
                     src="https://api.dicebear.com/7.x/miniavs/svg?seed=8"
                     alt="Avatar"
                   />
@@ -83,7 +87,7 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({ comments, addComment 
         />
       )}
       {comments.length > 2 && (
-        <Button type="link" onClick={toggleShowAllComments}>
+        <Button type="link" className="px-4" onClick={toggleShowAllComments}>
           {showAllComments ? "Show Less" : "See More"}
         </Button>
       )}

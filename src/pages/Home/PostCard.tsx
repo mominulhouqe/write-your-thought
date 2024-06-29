@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Card } from "antd";
 import { LikeOutlined, LikeFilled, CommentOutlined } from "@ant-design/icons";
 import PostActionsMenu from "../../components/PostActionsMenu";
-
 import {
   useAddLikeCommentMutation,
   useGetAllPostsQuery,
@@ -12,12 +11,11 @@ import { useAppSelector } from "../../hooks/hooks";
 import { useUserInfo } from "../../redux/features/auth/authSlice";
 import CommentsSection from "../../components/CommentsSection ";
 
-
-
 interface Comment {
   id: number;
   text: string;
   author: string;
+  postId: string;
 }
 
 interface Post {
@@ -33,11 +31,11 @@ interface Post {
 const PostCard: React.FC = () => {
   const userInfo = useAppSelector(useUserInfo);
   const [comments, setComments] = useState<Comment[]>([]);
+  const [showComments, setShowComments] = useState<string | null>(null);
 
-  const { data: posts, } = useGetAllPostsQuery({});
+  const { data: posts } = useGetAllPostsQuery({});
   const [addLikeComment, { isLoading: addLikeLoading }] =
     useAddLikeCommentMutation();
-
 
   const handleLike = async (postId: string) => {
     const data = {
@@ -51,64 +49,86 @@ const PostCard: React.FC = () => {
     }
   };
 
-  const addComment = (comment: Comment) => {
-    setComments([...comments, comment]);
+  const addComment = (comment: Omit<Comment, "postId">, postId: string) => {
+    setComments((prevComments) => [...prevComments, { ...comment, postId }]);
+  };
+
+  const toggleComments = (postId: string) => {
+    setShowComments((prev) => (prev === postId ? null : postId));
   };
 
   return (
     <div className="mt-6 px-1">
       {posts?.data?.map((post: Post) => (
-        <Card
-          key={post?._id}
-          className="shadow-lg my-2"
-          actions={[
-            <span onClick={() => handleLike(post?.post_id)} key="like">
-              {post?.post_additional?.likes?.some(
-                (like: { user_id: string | undefined }) => like?.user_id === userInfo?.user_id
-              ) ? (
-                <LikeFilled
-                  disabled={addLikeLoading}
-                  className="text-blue-500"
-                />
-              ) : (
-                <LikeOutlined disabled={addLikeLoading} />
-              )}{" "}
-              {post?.post_additional?.likes?.length}
-            </span>,
-            <CommentOutlined key="comment" />,
-            <PostActionsMenu key="actions" postId={post?.post_id} />,
-          ]}
-        >
-          <div className="flex items-center mb-4">
-            <img
-              className="w-10 h-10 border-2 border-blue-500 rounded-full"
-              src={
-                post?.user_info?.avatar?.url ||
-                "https://api.dicebear.com/7.x/miniavs/svg?seed=8"
-              }
-              alt=""
-            />
-            <div className="ml-4">
-              <h4 className="font-medium text-lg capitalize">
-                {post?.user_info?.name}
-              </h4>
-              <small className="text-gray-500">
-                {format(new Date(post?.createdAt), "MMMM do, yy h:mm a")}
-              </small>
-            </div>
-          </div>
-          <div className="mb-3">
-            {post?.post_image?.url && (
+        <div key={post._id} className="border p-4 my-3 rounded-lg shadow">
+          <Card
+            className="my-2 border-none"
+            actions={[
+              <span onClick={() => handleLike(post.post_id)} key="like">
+                {post?.post_additional?.likes?.some(
+                  (like: { user_id: string | undefined }) =>
+                    like.user_id === userInfo?.user_id
+                ) ? (
+                  <LikeFilled
+                    disabled={addLikeLoading}
+                    className="text-blue-500"
+                  />
+                ) : (
+                  <LikeOutlined disabled={addLikeLoading} />
+                )}{" "}
+                {post?.post_additional?.likes?.length}
+              </span>,
+              <span
+                key="comment"
+                onClick={() => toggleComments(post.post_id)}
+                className="cursor-pointer"
+              >
+                <CommentOutlined />
+              </span>,
+              <PostActionsMenu key="actions" postId={post.post_id} />,
+            ]}
+          >
+            <div className="flex items-center mb-4">
               <img
-                className="w-full my-2 rounded-lg"
-                src={post?.post_image?.url}
+                className="w-10 h-10 border-2 border-blue-500 rounded-full"
+                src={
+                  post?.user_info?.avatar?.url ||
+                  "https://api.dicebear.com/7.x/miniavs/svg?seed=8"
+                }
                 alt=""
               />
-            )}
-            <p className="text-gray-700">{post?.post_description}</p>
-          </div>
-          <CommentsSection comments={comments} addComment={addComment} />
-        </Card>
+              <div className="ml-4">
+                <h4 className="font-medium text-lg capitalize">
+                  {post?.user_info?.name}
+                </h4>
+                <small className="text-gray-500">
+                  {format(new Date(post.createdAt), "MMMM do, yy h:mm a")}
+                </small>
+              </div>
+            </div>
+            <div className="mb-3">
+              {post?.post_image?.url && (
+                <img
+                  className="w-full my-2 rounded-lg"
+                  src={post.post_image.url}
+                  alt=""
+                />
+              )}
+              <p className="text-gray-700">{post.post_description}</p>
+            </div>
+          </Card>
+
+          {showComments === post.post_id && (
+            <CommentsSection
+              comments={comments.filter(
+                (comment) => comment.postId === post.post_id
+              )}
+              addComment={(comment: Omit<Comment, "postId">) =>
+                addComment(comment, post.post_id)
+              }
+            />
+          )}
+        </div>
       ))}
     </div>
   );
