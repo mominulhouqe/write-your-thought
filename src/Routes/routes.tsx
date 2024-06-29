@@ -4,29 +4,33 @@ import Register from "../pages/Register/Register";
 import Login from "../pages/Login/Login";
 import ProfileCard from "../pages/ProfileCard/ProfileCard";
 import Home from "../pages/Home/Home";
-
+import GoogleLoginCallback from "../pages/GoogleLoginCallback/GoogleLoginCallback";
 const routes = createBrowserRouter([
-    {
-        path:"/",
-        element:<App />,
-        children:[
-            {
-                path:"/",
-                element:<Home />
-            },
-            {
-                path:"profile",
-                element:<ProfileCard />
-            }
-        ]
-    },
-    {
-        path:"/login",
-        element:<Login />,
-    },
-    {
-        path:"/register",
-        element:<Register />,
-    }
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "profile",
+        element: <ProfileCard />,
+      },
+    ],
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/login/success",
+    element: <GoogleLoginCallback />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
+  },
 ]);
-export default routes
+export default routes;

@@ -65,6 +65,7 @@ const Login: React.FC = () => {
   const handleGoogleSignIn = () => {
     // Handle Google Sign-In logic here
     console.log("Signing in with Google...");
+    window.location.href = "http://localhost:8000/api/v2/users/google";
   };
 
   return (
