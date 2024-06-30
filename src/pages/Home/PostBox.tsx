@@ -58,9 +58,9 @@ const PostBox: React.FC = () => {
 
   return (
     <>
-      <Button type="primary" onClick={() => setIsModalVisible(true)}>
+      {/* <Button type="primary" onClick={() => setIsModalVisible(true)}>
         Create Post
-      </Button>
+      </Button> */}
       <div className="flex items-center p-6 bg-white rounded-lg shadow-md border border-gray-200">
         <Link to="/profile">
           {/* Profile Image */}
