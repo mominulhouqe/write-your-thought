@@ -5,8 +5,12 @@ import {
   useAddCommentMutation,
   useGetSinglePostCommentQuery,
 } from "../redux/features/likeComment/likeCommentApi";
+import { formatDistanceToNow } from "date-fns";
+import { useAppSelector } from "../hooks/hooks";
+import { useUserInfo } from "../redux/features/auth/authSlice";
 
 const CommentsSection = ({ comments, totalComment, post }) => {
+  const userInfo = useAppSelector(useUserInfo);
   const [commentText, setCommentText] = useState<string>("");
   const { data, isLoading: commentLoading } = useGetSinglePostCommentQuery({
     postId: post?.post_id,
@@ -81,8 +85,27 @@ const CommentsSection = ({ comments, totalComment, post }) => {
                   alt="Avatar"
                 />
               }
-              title={<span className="capitalize">{item?.name}</span>}
-              description={item?.comment}
+              title={
+                <span className="capitalize text-blue-900">{item?.name}</span>
+              }
+              description={
+                <div>
+                  <p>{item?.comment}</p>
+                  <div className="flex items-center gap-4">
+                    <p className="text-[12px]">
+                      {formatDistanceToNow(new Date(item?.createdAt), {
+                        addSuffix: true,
+                      })}
+                    </p>
+                    {userInfo?.user_id == post?.createdBy && (
+                      <button>hide</button>
+                    )}
+                    {userInfo?.user_id == item?.user_id && (
+                      <button>delete</button>
+                    )}
+                  </div>
+                </div>
+              }
               //todo-- add createdAt for comment date and comment user id same same current user than show delete button
             />
           </List.Item>
