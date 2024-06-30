@@ -5,10 +5,12 @@ import Login from "../pages/Login/Login";
 import ProfileCard from "../pages/ProfileCard/ProfileCard";
 import Home from "../pages/Home/Home";
 import GoogleLoginCallback from "../pages/GoogleLoginCallback/GoogleLoginCallback";
+import ErrorPage from "../components/ErrorPage";
 const routes = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         path: "/",

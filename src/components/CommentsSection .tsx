@@ -6,16 +6,19 @@ interface Comment {
   id: number;
   text: string;
   author: string;
+  postId: string;
 }
 
 interface CommentsSectionProps {
   comments: Comment[];
   addComment: (comment: Comment) => void;
+  showInput: boolean;
 }
 
 const CommentsSection: React.FC<CommentsSectionProps> = ({
   comments,
   addComment,
+  showInput,
 }) => {
   const [commentText, setCommentText] = useState<string>("");
   const [showAllComments, setShowAllComments] = useState<boolean>(false);
@@ -30,6 +33,7 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({
         id: comments.length + 1,
         text: commentText,
         author: "Current User", // You might want to replace this with actual user data
+        postId: comments.length > 0 ? comments[0].postId : "", // Assume all comments have the same postId
       };
       addComment(newComment);
       setCommentText("");
@@ -43,28 +47,30 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({
     setShowAllComments(!showAllComments);
   };
 
-  const commentsToShow = showAllComments ? comments : comments.slice(0, 2);
+  const commentsToShow = showAllComments ? comments : comments.slice(0, 1);
 
   return (
     <div>
-      <div className="flex justify-center items-start">
-        <Input.TextArea
-          value={commentText}
-          onChange={handleCommentChange}
-          placeholder="Write a comment..."
-          className="rounded-e-none h-14"
-        />
-        <Button
-          type="primary"
-          onClick={handleCommentSubmit}
-          className="border-none rounded-l-none h-14"
-        >
-          <CommentOutlined />
-        </Button>
-      </div>
+      {showInput && (
+        <div className="flex justify-center items-start mt-2">
+          <Input.TextArea
+            value={commentText}
+            onChange={handleCommentChange}
+            placeholder="Write a comment..."
+            className="rounded-e-none h-14"
+          />
+          <Button
+            type="primary"
+            onClick={handleCommentSubmit}
+            className="border-none rounded-l-none h-14"
+          >
+            <CommentOutlined />
+          </Button>
+        </div>
+      )}
       {comments.length > 0 && (
         <List
-          className="mt-2 px-4"
+          className="mt-2 px-4 font-medium"
           header={`${comments.length} ${
             comments.length === 1 ? "Comment" : "Comments"
           }`}
@@ -86,7 +92,7 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({
           )}
         />
       )}
-      {comments.length > 2 && (
+      {comments.length > 1 && (
         <Button type="link" className="px-4" onClick={toggleShowAllComments}>
           {showAllComments ? "Show Less" : "See More"}
         </Button>
