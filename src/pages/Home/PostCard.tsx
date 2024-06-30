@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card } from "antd";
+import { Card, message } from "antd";
 import {
   LikeOutlined,
   LikeFilled,
@@ -9,12 +9,13 @@ import {
 import PostActionsMenu from "../../components/PostActionsMenu";
 import CommentsSection from "../../components/CommentsSection ";
 import {
-  useAddLikeCommentMutation,
+  useAddLikeMutation,
   useGetAllPostsQuery,
 } from "../../redux/features/post/postApi";
 import { format } from "date-fns";
 import { useAppSelector } from "../../hooks/hooks";
 import { useUserInfo } from "../../redux/features/auth/authSlice";
+import { useNavigate } from "react-router-dom";
 
 interface Comment {
   id: number;
@@ -38,24 +39,24 @@ const PostCard: React.FC = () => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [showComments, setShowComments] = useState<string | null>(null);
 
+  const navigate = useNavigate();
+
   const { data: posts, isLoading } = useGetAllPostsQuery({});
-  const [addLikeComment, { isLoading: addLikeLoading }] =
-    useAddLikeCommentMutation();
+  const [addLike, { isLoading: addLikeLoading }] = useAddLikeMutation();
 
   const handleLike = async (postId: string) => {
     const data = {
       like: true,
     };
     try {
-      const res = await addLikeComment({ postId, ...data }).unwrap();
-      // console.log(res);
+      const res = await addLike({ postId, ...data }).unwrap();
+      console.log(res);
     } catch (error) {
-      console.log(error);
+      if (error?.data?.message == "Key not found. Please Login First") {
+        navigate("/login");
+      }
+      message.error(error?.message || error?.data?.message);
     }
-  };
-
-  const addComment = (comment: Omit<Comment, "postId">, postId: string) => {
-    setComments((prevComments) => [...prevComments, { ...comment, postId }]);
   };
 
   const toggleComments = (postId: string) => {
@@ -65,11 +66,11 @@ const PostCard: React.FC = () => {
   return (
     <div className="mt-6 px-1">
       {posts?.data?.map((post: Post) => (
-        <div key={post._id} className="border p-4 my-3 rounded-lg shadow">
+        <div key={post?._id} className="border p-4 my-3 rounded-lg shadow">
           <Card
             className="my-2 border-none"
             actions={[
-              <span onClick={() => handleLike(post.post_id)} key="like">
+              <span onClick={() => handleLike(post?.post_id)} key="like">
                 {post?.post_additional?.likes?.some(
                   (like: { user_id: string | undefined }) =>
                     like.user_id === userInfo?.user_id
@@ -85,12 +86,13 @@ const PostCard: React.FC = () => {
               </span>,
               <span
                 key="comment"
-                onClick={() => toggleComments(post.post_id)}
+                onClick={() => toggleComments(post?.post_id)}
                 className="cursor-pointer"
               >
-                <CommentOutlined />
+                <CommentOutlined />{" "}
+                {post?.total_comment > 0 && post?.total_comment}
               </span>,
-              <PostActionsMenu key="actions" postId={post.post_id} />,
+              <PostActionsMenu key="actions" postId={post?.post_id} />,
             ]}
           >
             <div className="flex items-center mb-4">
@@ -107,7 +109,7 @@ const PostCard: React.FC = () => {
                   {post?.user_info?.name}
                 </h4>
                 <small className="text-gray-500">
-                  {format(new Date(post.createdAt), "MMMM do, yy h:mm a")}
+                  {format(new Date(post?.createdAt), "MMMM do, yy h:mm a")}
                 </small>
               </div>
             </div>
@@ -115,22 +117,21 @@ const PostCard: React.FC = () => {
               {post?.post_image?.url && (
                 <img
                   className="w-full my-2 rounded-lg"
-                  src={post.post_image.url}
+                  src={post?.post_image?.url}
                   alt=""
                 />
               )}
-              <p className="text-gray-700">{post.post_description}</p>
+              <p className="text-gray-700">{post?.post_description}</p>
             </div>
           </Card>
 
-          {showComments === post.post_id && (
+          {showComments === post?.post_id && (
             <CommentsSection
+              post={post}
+              totalComment={post?.total_comment}
               comments={comments.filter(
-                (comment) => comment.postId === post.post_id
+                (comment) => comment?.postId === post?.post_id
               )}
-              addComment={(comment: Omit<Comment, "postId">) =>
-                addComment(comment, post.post_id)
-              }
             />
           )}
         </div>

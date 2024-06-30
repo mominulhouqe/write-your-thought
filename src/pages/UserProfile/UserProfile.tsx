@@ -26,6 +26,10 @@ const UserProfile: React.FC = () => {
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
 
+  if (!userInfo?.email) {
+    return <p>Please login to access all feature</p>;
+  }
+
   return (
     <motion.div
       variants={containerVariants}
@@ -34,7 +38,6 @@ const UserProfile: React.FC = () => {
       className="border rounded-lg w-full h-screen bg-slate-50 text-xs p-4"
     >
       <div className="">
-        
         <Link to="/profile">
           {userInfo?.avatar?.url ? (
             <motion.img
@@ -69,7 +72,10 @@ const UserProfile: React.FC = () => {
           {userInfo?.bio || "No bio available"}
         </div>
       </motion.div>
-      <motion.div className="border-b border-gray-400 my-4" variants={itemVariants}></motion.div>
+      <motion.div
+        className="border-b border-gray-400 my-4"
+        variants={itemVariants}
+      ></motion.div>
       <motion.div className="p-2 space-y-2" variants={itemVariants}>
         <p className="p-2 border-b">
           <span className="font-medium">Role:</span>{" "}
@@ -96,7 +102,10 @@ const UserProfile: React.FC = () => {
           {userInfo?.following || "No following available"}
         </p>
       </motion.div>
-      <motion.div className="border-b border-gray-400 my-4" variants={itemVariants}></motion.div>
+      <motion.div
+        className="border-b border-gray-400 my-4"
+        variants={itemVariants}
+      ></motion.div>
       <motion.div className="p-2" variants={itemVariants}>
         <h5 className="font-medium mb-2">Recent Activity</h5>
         <ul className="space-y-2">

@@ -106,13 +106,13 @@ const Navber: React.FC = () => {
       >
         <ul className="flex flex-col items-center text-lg">
           <li className="my-2">
-            <a href="#">Home</a>
+            <Link to="/">Home</Link>
           </li>
           <li className="my-2">
-            <a href="#">Blogs</a>
+            <Link to="/blogs">Blogs</Link>
           </li>
           <li className="my-2">
-            <a href="#">About</a>
+            <Link to="/about">About</Link>
           </li>
           {userInfo?.email ? (
             <li className="mx-2 my-2 cursor-pointer flex justify-center items-center">
