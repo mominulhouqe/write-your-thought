@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import Register from "../pages/Register/Register";
 import Login from "../pages/Login/Login";
-import ProfileCard from "../pages/ProfileCard/ProfileCard";
+import ProfileCard from "../pages/ProfileSetting/ProfileCard";
 import Home from "../pages/Home/Home";
 import GoogleLoginCallback from "../pages/GoogleLoginCallback/GoogleLoginCallback";
 import ErrorPage from "../components/ErrorPage";
