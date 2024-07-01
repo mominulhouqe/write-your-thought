@@ -38,7 +38,7 @@ const UserProfile: React.FC = () => {
       className="border rounded-lg w-full h-screen bg-slate-50 text-xs p-4"
     >
       <div className="">
-        <Link to="/profile">
+        <Link to="/user-profile">
           {userInfo?.avatar?.url ? (
             <motion.img
               src={userInfo.avatar.url}
@@ -55,7 +55,7 @@ const UserProfile: React.FC = () => {
             </motion.div>
           )}
         </Link>
-        <Link to="/profile" className="absolute top-2 right-2" title="setting">
+        <Link to="/user-profile" className="absolute top-2 right-2" title="setting">
           <motion.button
             className="bg-blue-500 text-white p-1 rounded-full"
             variants={itemVariants}

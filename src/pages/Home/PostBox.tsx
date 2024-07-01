@@ -85,7 +85,7 @@ const PostBox: React.FC = () => {
       <div className="flex items-center p-6 bg-white rounded-lg shadow-md border border-gray-200">
         {/* Profile Image */}
         {userInfo?.avatar?.url ? (
-          <Link to="/profile">
+          <Link to="/user-profile">
             <img
               src={userInfo?.avatar?.url}
               alt="Profile"
