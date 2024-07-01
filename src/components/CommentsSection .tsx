@@ -53,7 +53,7 @@ const CommentsSection = ({ totalComment, post }) => {
     }
   };
 
-  const handleCommentRemove = async (commentId) => {
+  const handleCommentRemove = async (commentId: string) => {
     if (commentId) {
       try {
         const res = await deleteComment(commentId).unwrap();
@@ -64,11 +64,10 @@ const CommentsSection = ({ totalComment, post }) => {
     }
   };
 
-  const handleHideComment = async (commentId) => {
+  const handleHideComment = async (commentId: string) => {
     if (commentId) {
       try {
         const res = await hideComment(commentId).unwrap();
-        console.log(res);
         message.success(res?.message || res?.data?.message);
       } catch (error) {
         message.error(error?.message || error?.data?.message);
