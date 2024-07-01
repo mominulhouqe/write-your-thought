@@ -12,7 +12,7 @@ import PostActionsMenu from "../../components/PostActionsMenu";
 import { useAddLikeMutation, useGetAllPostsQuery } from "../../redux/features/post/postApi";
 import { useAppSelector } from "../../hooks/hooks";
 import { useUserInfo } from "../../redux/features/auth/authSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CommentsSection from "../../components/CommentsSection ";
 
 interface Comment {
@@ -86,11 +86,13 @@ const PostCard: React.FC = () => {
           ]}
         >
           <div className="flex items-center mb-4">
-            <Avatar
+           <Link to="/user-profile">
+           <Avatar
               src={post?.user_info?.avatar?.url || "https://api.dicebear.com/7.x/miniavs/svg?seed=8"}
               size="large"
               className="border-2 border-blue-500"
             />
+           </Link>
             <div className="ml-4">
               <h4 className="font-medium text-lg capitalize">{post?.user_info?.name}</h4>
               <Tooltip title={format(new Date(post?.createdAt), "PPPp")}>

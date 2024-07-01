@@ -5,7 +5,7 @@ import Navber from "./pages/Home/Navber";
 
 function App() {
   return (
-    <div className="">
+    <div className="bg-gray-200 h-full">
       <Navber />
       <Outlet />
     </div>
