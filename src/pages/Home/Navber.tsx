@@ -49,7 +49,7 @@ const Navber: React.FC = () => {
             <Link to="/">Home</Link>
           </li>
           <li className="mx-4">
-            <Link to="/blogs">Blogs</Link>
+            <Link to="/post-view">Blogs</Link>
           </li>
           <li className="mx-4">
             <Link to="/about">About</Link>
@@ -57,7 +57,7 @@ const Navber: React.FC = () => {
           {userInfo?.email ? (
             <li className="relative mx-2 flex items-center">
               {/* Profile Image */}
-              <Link to="/profile">
+              <Link to="/user-profile">
                 {userInfo?.avatar?.url ? (
                   <img
                     src={userInfo?.avatar?.url}
@@ -116,7 +116,7 @@ const Navber: React.FC = () => {
           </li>
           {userInfo?.email ? (
             <li className="mx-2 my-2 cursor-pointer flex justify-center items-center">
-              <Link to="/profile">
+              <Link to="/user-profile">
                 {/* Profile Image */}
                 {userInfo?.avatar?.url ? (
                   <img

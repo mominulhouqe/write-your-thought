@@ -10,6 +10,7 @@ import {
 import { formatDistanceToNow } from "date-fns";
 import { useAppSelector } from "../hooks/hooks";
 import { useUserInfo } from "../redux/features/auth/authSlice";
+import { Link } from "react-router-dom";
 
 const CommentsSection = ({ totalComment, post }) => {
   const userInfo = useAppSelector(useUserInfo);
@@ -105,7 +106,8 @@ const CommentsSection = ({ totalComment, post }) => {
           <List.Item>
             <List.Item.Meta
               avatar={
-                <img
+               <Link to='/user-profile'>
+                 <img
                   className="w-8 h-8 border border-blue-500 rounded-full"
                   src={
                     item?.avatar?.url ||
@@ -113,9 +115,10 @@ const CommentsSection = ({ totalComment, post }) => {
                   }
                   alt="Avatar"
                 />
+               </Link>
               }
               title={
-                <span className="capitalize text-blue-900">{item?.name}</span>
+                <Link to='/user-profile' className="capitalize text-blue-900">{item?.name}</Link>
               }
               description={
                 <div>

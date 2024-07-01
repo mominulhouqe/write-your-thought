@@ -1,21 +1,19 @@
 import React, { useState } from "react";
-import { Card, message } from "antd";
+import { Card, message, Avatar, Tooltip } from "antd";
 import {
   LikeOutlined,
   LikeFilled,
   CommentOutlined,
-  EyeFilled,
+  MoreOutlined,
 } from "@ant-design/icons";
-import PostActionsMenu from "../../components/PostActionsMenu";
-import CommentsSection from "../../components/CommentsSection ";
-import {
-  useAddLikeMutation,
-  useGetAllPostsQuery,
-} from "../../redux/features/post/postApi";
 import { format } from "date-fns";
+import PostActionsMenu from "../../components/PostActionsMenu";
+
+import { useAddLikeMutation, useGetAllPostsQuery } from "../../redux/features/post/postApi";
 import { useAppSelector } from "../../hooks/hooks";
 import { useUserInfo } from "../../redux/features/auth/authSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import CommentsSection from "../../components/CommentsSection ";
 
 interface Comment {
   id: number;
@@ -37,9 +35,7 @@ interface Post {
 const PostCard: React.FC = () => {
   const userInfo = useAppSelector(useUserInfo);
   const [showComments, setShowComments] = useState<string | null>(null);
-
   const navigate = useNavigate();
-
   const { data: posts, isLoading } = useGetAllPostsQuery({});
   const [addLike, { isLoading: addLikeLoading }] = useAddLikeMutation();
 
@@ -65,69 +61,56 @@ const PostCard: React.FC = () => {
   return (
     <div className="mt-6 px-1">
       {posts?.data?.map((post: Post) => (
-        <div key={post?._id} className="border p-4 my-3 rounded-lg shadow">
-          <Card
-            className="my-2 border-none"
-            actions={[
-              <span onClick={() => handleLike(post?.post_id)} key="like">
-                {post?.post_additional?.likes?.some(
-                  (like: { user_id: string | undefined }) =>
-                    like.user_id === userInfo?.user_id
-                ) ? (
-                  <LikeFilled
-                    disabled={addLikeLoading}
-                    className="text-blue-500"
-                  />
-                ) : (
-                  <LikeOutlined disabled={addLikeLoading} />
-                )}{" "}
-                {post?.post_additional?.likes?.length}
-              </span>,
-              <span
-                key="comment"
-                onClick={() => toggleComments(post?.post_id)}
-                className="cursor-pointer"
-              >
-                <CommentOutlined />{" "}
-                {post?.total_comment > 0 && post?.total_comment}
-              </span>,
-              <PostActionsMenu key="actions" postId={post?.post_id} />,
-            ]}
-          >
-            <div className="flex items-center mb-4">
-              <img
-                className="w-10 h-10 border-2 border-blue-500 rounded-full"
-                src={
-                  post?.user_info?.avatar?.url ||
-                  "https://api.dicebear.com/7.x/miniavs/svg?seed=8"
-                }
-                alt=""
-              />
-              <div className="ml-4">
-                <h4 className="font-medium text-lg capitalize">
-                  {post?.user_info?.name}
-                </h4>
-                <small className="text-gray-500">
-                  {format(new Date(post?.createdAt), "MMMM do, yy h:mm a")}
-                </small>
-              </div>
+        <Card
+          key={post?._id}
+          className="my-4 border rounded-lg shadow-md"
+          actions={[
+            <span onClick={() => handleLike(post?.post_id)} key="like">
+              {post?.post_additional?.likes?.some(
+                (like: { user_id: string | undefined }) => like.user_id === userInfo?.user_id
+              ) ? (
+                <LikeFilled disabled={addLikeLoading} className="text-blue-500" />
+              ) : (
+                <LikeOutlined disabled={addLikeLoading} />
+              )}{" "}
+              {post?.post_additional?.likes?.length}
+            </span>,
+            <span
+              key="comment"
+              onClick={() => toggleComments(post?.post_id)}
+              className="cursor-pointer"
+            >
+              <CommentOutlined /> {post?.total_comment > 0 && post?.total_comment}
+            </span>,
+            <PostActionsMenu key="actions" postId={post?.post_id} />,
+          ]}
+        >
+          <div className="flex items-center mb-4">
+           <Link to="/user-profile">
+           <Avatar
+              src={post?.user_info?.avatar?.url || "https://api.dicebear.com/7.x/miniavs/svg?seed=8"}
+              size="large"
+              className="border-2 border-blue-500"
+            />
+           </Link>
+            <div className="ml-4">
+              <h4 className="font-medium text-lg capitalize">{post?.user_info?.name}</h4>
+              <Tooltip title={format(new Date(post?.createdAt), "PPPp")}>
+                <span className="text-gray-500">{format(new Date(post?.createdAt), "MMMM do, yyyy h:mm a")}</span>
+              </Tooltip>
             </div>
-            <div className="mb-3">
-              {post?.post_image?.url && (
-                <img
-                  className="w-full my-2 rounded-lg"
-                  src={post?.post_image?.url}
-                  alt=""
-                />
-              )}
-              <p className="text-gray-700">{post?.post_description}</p>
+            <div className="ml-auto">
+              <MoreOutlined className="text-lg" />
             </div>
-          </Card>
-
+          </div>
+          {post?.post_image?.url && (
+            <img className="w-full my-2 rounded-lg" src={post?.post_image?.url} alt="" />
+          )}
+          <p className="text-gray-700 mb-3">{post?.post_description}</p>
           {showComments === post?.post_id && (
             <CommentsSection post={post} totalComment={post?.total_comment} />
           )}
-        </div>
+        </Card>
       ))}
     </div>
   );
