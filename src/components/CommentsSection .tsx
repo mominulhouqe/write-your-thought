@@ -97,7 +97,7 @@ const CommentsSection = ({ totalComment, post }) => {
       <List
         className="mt-2 px-4 font-medium"
         header={
-          totalComment == 0
+          totalComment == 0 && !totalComment
             ? 0 + " " + "Comment"
             : totalComment + " " + "Comments"
         }
@@ -106,19 +106,21 @@ const CommentsSection = ({ totalComment, post }) => {
           <List.Item>
             <List.Item.Meta
               avatar={
-               <Link to='/user-profile'>
-                 <img
-                  className="w-8 h-8 border border-blue-500 rounded-full"
-                  src={
-                    item?.avatar?.url ||
-                    "https://api.dicebear.com/7.x/miniavs/svg?seed=8"
-                  }
-                  alt="Avatar"
-                />
-               </Link>
+                <Link to="/user-profile">
+                  <img
+                    className="w-8 h-8 border border-blue-500 rounded-full"
+                    src={
+                      item?.avatar?.url ||
+                      "https://api.dicebear.com/7.x/miniavs/svg?seed=8"
+                    }
+                    alt="Avatar"
+                  />
+                </Link>
               }
               title={
-                <Link to='/user-profile' className="capitalize text-blue-900">{item?.name}</Link>
+                <Link to="/user-profile" className="capitalize text-blue-900">
+                  {item?.name}
+                </Link>
               }
               description={
                 <div>

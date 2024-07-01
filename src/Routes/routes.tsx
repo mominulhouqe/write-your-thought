@@ -28,12 +28,12 @@ const routes = createBrowserRouter([
       },
 
       {
-        path: "post-view",
+        path: "post-view/:postId",
         element: <SingleViewPost />,
       },
     ],
   },
- 
+
   {
     path: "/login",
     element: <Login />,

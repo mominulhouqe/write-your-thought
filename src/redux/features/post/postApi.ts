@@ -22,13 +22,13 @@ const postApi = baseApi.injectEndpoints({
       },
       providesTags: ["Post"],
     }),
-    // getSingleMemberByMobile: builder.query({
-    //   query: ({ mobile = "" }) => ({
-    //     url: `/members/member/${mobile}`,
-    //     method: "GET",
-    //   }),
-    //   providesTags: ["Member"],
-    // }),
+    getSinglePostById: builder.query({
+      query: ({ postId = "" }) => ({
+        url: `/posts/get-single/${postId}`,
+        method: "GET",
+      }),
+      providesTags: ["Post"],
+    }),
     addPost: builder.mutation({
       query: (data) => ({
         url: "/posts/create-post",
@@ -45,11 +45,23 @@ const postApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Post"],
     }),
+    deletePost: builder.mutation({
+      query: (postId) => ({
+        url: `/posts/delete/${postId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Post"],
+    }),
   }),
 });
 
-export const { useAddPostMutation, useGetAllPostsQuery, useAddLikeMutation } =
-  postApi;
+export const {
+  useAddPostMutation,
+  useGetAllPostsQuery,
+  useGetSinglePostByIdQuery,
+  useAddLikeMutation,
+  useDeletePostMutation,
+} = postApi;
 
 // import { baseApi } from "../api/baseApi";
 
