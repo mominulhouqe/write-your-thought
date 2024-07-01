@@ -3,19 +3,26 @@ import { Input, Button, List, message } from "antd";
 import { CommentOutlined } from "@ant-design/icons";
 import {
   useAddCommentMutation,
+  useDeleteCommentMutation,
   useGetSinglePostCommentQuery,
+  useHideCommentMutation,
 } from "../redux/features/likeComment/likeCommentApi";
 import { formatDistanceToNow } from "date-fns";
 import { useAppSelector } from "../hooks/hooks";
 import { useUserInfo } from "../redux/features/auth/authSlice";
 
-const CommentsSection = ({ comments, totalComment, post }) => {
+const CommentsSection = ({ totalComment, post }) => {
   const userInfo = useAppSelector(useUserInfo);
   const [commentText, setCommentText] = useState<string>("");
   const { data, isLoading: commentLoading } = useGetSinglePostCommentQuery({
     postId: post?.post_id,
     skip: !post,
   });
+
+  const [deleteComment, { isLoading: deleteCommentLoading }] =
+    useDeleteCommentMutation();
+  const [hideComment, { isLoading: hideCommentLoading }] =
+    useHideCommentMutation();
 
   const [addComment, { isLoading: commentAddLoading }] = useAddCommentMutation(
     {}
@@ -43,6 +50,29 @@ const CommentsSection = ({ comments, totalComment, post }) => {
       }
     } else {
       message.error("Comment cannot be empty");
+    }
+  };
+
+  const handleCommentRemove = async (commentId) => {
+    if (commentId) {
+      try {
+        const res = await deleteComment(commentId).unwrap();
+        message.success(res?.message || res?.data?.message);
+      } catch (error) {
+        message.error(error?.message || error?.data?.message);
+      }
+    }
+  };
+
+  const handleHideComment = async (commentId) => {
+    if (commentId) {
+      try {
+        const res = await hideComment(commentId).unwrap();
+        console.log(res);
+        message.success(res?.message || res?.data?.message);
+      } catch (error) {
+        message.error(error?.message || error?.data?.message);
+      }
     }
   };
 
@@ -98,10 +128,17 @@ const CommentsSection = ({ comments, totalComment, post }) => {
                       })}
                     </p>
                     {userInfo?.user_id == post?.createdBy && (
-                      <button>hide</button>
+                      <button onClick={() => handleHideComment(item?.id)}>
+                        hide
+                      </button>
                     )}
                     {userInfo?.user_id == item?.user_id && (
-                      <button>delete</button>
+                      <button
+                        onClick={() => handleCommentRemove(item?.id)}
+                        className="text-red-900"
+                      >
+                        delete
+                      </button>
                     )}
                   </div>
                 </div>

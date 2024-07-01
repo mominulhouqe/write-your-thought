@@ -36,7 +36,6 @@ interface Post {
 
 const PostCard: React.FC = () => {
   const userInfo = useAppSelector(useUserInfo);
-  const [comments, setComments] = useState<Comment[]>([]);
   const [showComments, setShowComments] = useState<string | null>(null);
 
   const navigate = useNavigate();
@@ -126,13 +125,7 @@ const PostCard: React.FC = () => {
           </Card>
 
           {showComments === post?.post_id && (
-            <CommentsSection
-              post={post}
-              totalComment={post?.total_comment}
-              comments={comments.filter(
-                (comment) => comment?.postId === post?.post_id
-              )}
-            />
+            <CommentsSection post={post} totalComment={post?.total_comment} />
           )}
         </div>
       ))}

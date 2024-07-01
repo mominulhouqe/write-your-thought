@@ -1,7 +1,7 @@
 import { baseApi } from "../api/baseApi";
 
 const userApi = baseApi.injectEndpoints({
-  endpoints: (builder:any) => ({
+  endpoints: (builder) => ({
     fetchCurrentUser: builder.mutation({
       query: () => ({
         url: `/users/find-current-user`,
@@ -13,8 +13,6 @@ const userApi = baseApi.injectEndpoints({
 });
 
 export const { useFetchCurrentUserMutation } = userApi;
-
-
 
 /* 
 

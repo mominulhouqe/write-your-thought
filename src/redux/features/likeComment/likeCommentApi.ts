@@ -52,6 +52,20 @@ const likeCommentApi = baseApi.injectEndpoints({
       }),
       providesTags: ["LikeComment", "Post"],
     }),
+    deleteComment: builder.mutation({
+      query: (commentId) => ({
+        url: `/posts/delete-comment/${commentId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["LikeComment", "Post"],
+    }),
+    hideComment: builder.mutation({
+      query: (commentId) => ({
+        url: `/posts/hide-comment/${commentId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["LikeComment", "Post"],
+    }),
   }),
 });
 
@@ -60,4 +74,6 @@ export const {
   //  useGetAllPostsQuery,
   useAddCommentMutation,
   useGetSinglePostCommentQuery,
+  useDeleteCommentMutation,
+  useHideCommentMutation,
 } = likeCommentApi;
