@@ -111,7 +111,7 @@ const PostBox: React.FC = () => {
 
       <Modal
         title="Create a New Post"
-        visible={isModalVisible}
+        open={isModalVisible}
         onOk={handleSubmit}
         onCancel={handleCancel}
         confirmLoading={isLoading}

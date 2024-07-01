@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.5",
+    "@types/antd": "^1.0.0",
     "antd": "^5.18.3",
     "date-fns": "^3.6.0",
     "framer-motion": "^11.2.12",
