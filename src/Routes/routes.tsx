@@ -6,6 +6,7 @@ import ProfileCard from "../pages/ProfileSetting/ProfileCard";
 import Home from "../pages/Home/Home";
 import GoogleLoginCallback from "../pages/GoogleLoginCallback/GoogleLoginCallback";
 import ErrorPage from "../components/ErrorPage";
+import SingleViewPost from "../pages/Home/SingleViewPost";
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -20,8 +21,14 @@ const routes = createBrowserRouter([
         path: "profile",
         element: <ProfileCard />,
       },
+
+      {
+        path: "post-view",
+        element: <SingleViewPost />,
+      },
     ],
   },
+ 
   {
     path: "/login",
     element: <Login />,

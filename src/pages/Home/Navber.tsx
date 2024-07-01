@@ -49,7 +49,7 @@ const Navber: React.FC = () => {
             <Link to="/">Home</Link>
           </li>
           <li className="mx-4">
-            <Link to="/blogs">Blogs</Link>
+            <Link to="/post-view">Blogs</Link>
           </li>
           <li className="mx-4">
             <Link to="/about">About</Link>
