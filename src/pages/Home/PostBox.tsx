@@ -1,10 +1,22 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
-import { Button, Modal, Upload, message, Input } from "antd";
-import { UploadOutlined, UserAddOutlined } from "@ant-design/icons";
+import { Modal, Upload, message, Input, Image } from "antd";
+import { UserAddOutlined } from "@ant-design/icons";
 import { useAddPostMutation } from "../../redux/features/post/postApi";
 import { useAppSelector } from "../../hooks/hooks";
 import { useUserInfo } from "../../redux/features/auth/authSlice";
 import { Link, useNavigate } from "react-router-dom";
+
+import { PlusOutlined } from "@ant-design/icons";
+import type { GetProp, UploadFile, UploadProps } from "antd";
+type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
+const getBase64 = (file: FileType): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (error) => reject(error);
+  });
 
 const PostBox: React.FC = () => {
   const [postText, setPostText] = useState<string>("");
@@ -14,18 +26,30 @@ const PostBox: React.FC = () => {
   const userInfo = useAppSelector(useUserInfo);
   const navigate = useNavigate();
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setPostText(event.target.value);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+
+  const handlePreview = async (file: UploadFile) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj as FileType);
+    }
+
+    setPreviewImage(file.url || (file.preview as string));
+    setPreviewOpen(true);
   };
 
-  const handleFileChange = (info: any) => {
-    if (info.file.status === "done") {
-      message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === "error") {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-    // Restrict to only one file
-    setFileList(info.fileList.slice(-1));
+  const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
+    setFileList(newFileList);
+
+  const uploadButton = (
+    <button style={{ border: 0, background: "none" }} type="button">
+      <PlusOutlined />
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </button>
+  );
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setPostText(event.target.value);
   };
 
   const handleSubmit = async () => {
@@ -58,24 +82,24 @@ const PostBox: React.FC = () => {
 
   return (
     <>
-      {/* <Button type="primary" onClick={() => setIsModalVisible(true)}>
-        Create Post
-      </Button> */}
       <div className="flex items-center p-6 bg-white rounded-lg shadow-md border border-gray-200">
-        <Link to="/profile">
-          {/* Profile Image */}
-          {userInfo?.avatar?.url ? (
+        {/* Profile Image */}
+        {userInfo?.avatar?.url ? (
+          <Link to="/profile">
             <img
               src={userInfo?.avatar?.url}
               alt="Profile"
               className="w-12 h-12 rounded-full object-cover border-2 border-blue-500 shadow-md"
             />
-          ) : (
+          </Link>
+        ) : (
+          <Link to="/login">
             <div className="w-12 h-12 flex items-center justify-center border-2 border-blue-500 rounded-full bg-blue-100 text-blue-500 shadow-md">
               <UserAddOutlined className="text-2xl" />
             </div>
-          )}
-        </Link>
+          </Link>
+        )}
+
         <input
           type="text"
           placeholder="What's on your mind?"
@@ -102,14 +126,39 @@ const PostBox: React.FC = () => {
             value={postText}
             onChange={handleInputChange}
           />
+
           <Upload
+            action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+            listType="picture-card"
             fileList={fileList}
-            onChange={handleFileChange}
-            beforeUpload={() => false}
-            multiple={false} // Allow only one file
+            onPreview={handlePreview}
+            onChange={handleChange}
           >
-            <Button icon={<UploadOutlined />}>Upload File</Button>
+            {fileList.length >= 8 ? null : uploadButton}
           </Upload>
+          {previewImage && (
+            <Image
+              wrapperStyle={{ display: "none" }}
+              preview={{
+                visible: previewOpen,
+                onVisibleChange: (visible) => setPreviewOpen(visible),
+                afterOpenChange: (visible) => !visible && setPreviewImage(""),
+              }}
+              src={previewImage}
+            />
+          )}
+
+          {previewImage && (
+            <Image
+              wrapperStyle={{ display: "none" }}
+              preview={{
+                visible: previewOpen,
+                onVisibleChange: (visible) => setPreviewOpen(visible),
+                afterOpenChange: (visible) => !visible && setPreviewImage(""),
+              }}
+              src={previewImage}
+            />
+          )}
         </div>
       </Modal>
     </>
@@ -117,3 +166,4 @@ const PostBox: React.FC = () => {
 };
 
 export default PostBox;
+
