@@ -19,7 +19,7 @@ const routes = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "setting",
+        path: "profile-setting",
         element: <ProfileCard />,
       },
       {
