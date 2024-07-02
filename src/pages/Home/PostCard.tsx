@@ -46,10 +46,8 @@ const PostCard: React.FC = () => {
   const toggleComments = (postId: string) => {
     setShowComments((prev) => (prev === postId ? null : postId));
   };
-  if(isLoading){
-    return(
-      <Loading className="mt-12 h-screen"></Loading>
-    )
+  if (isLoading) {
+    return <Loading className="mt-12 h-screen"></Loading>;
   }
 
   return (
@@ -119,10 +117,7 @@ const PostCard: React.FC = () => {
             <p className="text-gray-700 mb-3">{post?.post_description}</p>
           </div>
           {showComments === post?.post_id && (
-            <CommentsSection
-              post={post}
-              totalComment={post?.total_comment}
-            />
+            <CommentsSection post={post} totalComment={post?.total_comment} />
           )}
         </Card>
       ))}

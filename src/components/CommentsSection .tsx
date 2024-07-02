@@ -81,10 +81,8 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({
     }
   };
 
-  if(commentAddLoading){
-    return(
-      <Loading className="mt-12 h-screen"></Loading>
-    )
+  if (commentAddLoading) {
+    return <Loading className="mt-12 h-screen"></Loading>;
   }
   return (
     <div>
@@ -106,7 +104,11 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({
 
       <List
         className="mt-2 px-4 font-medium"
-        header={totalComment === 0 ? "0 Comments" : `${totalComment} Comments`}
+        header={
+          totalComment === 0 || !totalComment
+            ? "0 Comments"
+            : `${totalComment} Comments`
+        }
         dataSource={data?.data}
         renderItem={(item: Comment) => (
           <List.Item>
