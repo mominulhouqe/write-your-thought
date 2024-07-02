@@ -1,47 +1,46 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
-import { Card, Avatar, Tooltip, Spin, message } from "antd";
+import { Card, Avatar, Tooltip, message, } from "antd";
 import {
   LikeOutlined,
   CommentOutlined,
-  ShareAltOutlined,
   LikeFilled,
   MoreOutlined,
 } from "@ant-design/icons";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useAddLikeMutation, useGetSinglePostByIdQuery } from "../../redux/features/post/postApi";
+import {
+  useAddLikeMutation,
+  useGetSinglePostByIdQuery,
+} from "../../redux/features/post/postApi";
 import { useAppSelector } from "../../hooks/hooks";
 import { useUserInfo } from "../../redux/features/auth/authSlice";
 import PostActionsMenu from "../../components/PostActionsMenu";
 import { format, isValid } from "date-fns";
 import CommentsSection from "../../components/CommentsSection ";
-
+import Loading from "../../components/Loading";
+import { AddLikeResponse, HandleLikeParams } from "../types/types";
 
 interface SingleViewPostProps {}
 
 const SingleViewPost: React.FC<SingleViewPostProps> = () => {
-
- 
-  
   const { postId } = useParams<{ postId: string }>();
   const navigate = useNavigate();
   const [addLike, { isLoading: addLikeLoading }] = useAddLikeMutation();
   const userInfo = useAppSelector(useUserInfo);
   const [showComments, setShowComments] = useState<string | null>(null);
 
-  const { data: singlePost, isLoading: singlePostLoading } = useGetSinglePostByIdQuery(
-    { postId: postId || "" },
-    { skip: !postId }
-  );
-console.log(singlePost);
+  const { data: singlePost, isLoading: singlePostLoading } =
+    useGetSinglePostByIdQuery({ postId: postId || "" }, { skip: !postId });
+  console.log(singlePost);
 
-  const handleLike = async (postId: string) => {
+  const handleLike = async (postId: HandleLikeParams['postId']) => {
     const data = { like: true };
     try {
-      const res = await addLike({ postId, ...data }).unwrap();
+      const res: AddLikeResponse = await addLike({ postId, ...data }).unwrap();
       console.log(res);
-    } catch (error) {
-      if (error?.data?.message === "Key not found. Please Login First") {
-        navigate("/login");
+    } catch (error: any) {
+      if (error?.data?.message === 'Key not found. Please Login First') {
+        navigate('/login');
       }
       message.error(error?.message || error?.data?.message);
     }
@@ -53,9 +52,7 @@ console.log(singlePost);
 
   if (singlePostLoading) {
     return (
-      <div className="text-center">
-        <Spin />
-      </div>
+      <Loading className="mt-12 h-screen"></Loading>
     );
   }
 
@@ -69,7 +66,10 @@ console.log(singlePost);
       <Card
         className="my-4 border rounded-lg shadow-md"
         actions={[
-          <span onClick={() => handleLike(singlePost?.data?.post_id)} key="like">
+          <span
+            onClick={() => handleLike(singlePost?.data?.post_id)}
+            key="like"
+          >
             {singlePost?.data?.post_additional?.likes?.some(
               (like: { user_id: string | undefined }) =>
                 like.user_id === userInfo?.user_id
@@ -86,9 +86,10 @@ console.log(singlePost);
             className="cursor-pointer"
           >
             <CommentOutlined />{" "}
-            {singlePost?.data?.total_comment > 0 && singlePost?.data?.total_comment}
+            {singlePost?.data?.total_comment > 0 &&
+              singlePost?.data?.total_comment}
           </span>,
-           <PostActionsMenu key="actions" post={singlePost} />,
+          <PostActionsMenu key="actions" post={singlePost} />,
         ]}
       >
         <div className="flex items-center mb-4">
@@ -103,10 +104,12 @@ console.log(singlePost);
             />
           </Link>
           <div className="ml-4">
-            <h4 className="font-medium text-lg capitalize">
-              {userInfo?.name}
-            </h4>
-            <Tooltip title={isValid(postDate) ? format(postDate, "PPPp") : "Invalid date"}>
+            <h4 className="font-medium text-lg capitalize">{userInfo?.name}</h4>
+            <Tooltip
+              title={
+                isValid(postDate) ? format(postDate, "PPPp") : "Invalid date"
+              }
+            >
               <span className="text-gray-500">{formattedDate}</span>
             </Tooltip>
           </div>
@@ -127,7 +130,10 @@ console.log(singlePost);
           </p>
         </div>
         {showComments === singlePost?.data?.post_id && (
-          <CommentsSection post={singlePost} totalComment={singlePost?.data?.total_comment} />
+          <CommentsSection
+            post={singlePost}
+            totalComment={singlePost?.data?.total_comment}
+          />
         )}
       </Card>
     </div>
@@ -135,7 +141,6 @@ console.log(singlePost);
 };
 
 export default SingleViewPost;
-
 
 /* 
 

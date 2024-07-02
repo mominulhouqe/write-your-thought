@@ -55,3 +55,14 @@ export interface CommentsSectionProps {
   totalComment: number;
   post: Post;
 }
+
+export interface AddLikeResponse {
+  message?: string;
+  data?: {
+    message?: string;
+  };
+}
+
+export interface HandleLikeParams {
+  postId: string;
+}

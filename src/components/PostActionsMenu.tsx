@@ -1,22 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Dropdown, Button, message, Modal } from "antd";
-import {
-  EditOutlined,
-  DeleteOutlined,
-  CopyOutlined,
-  MoreOutlined,
-} from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined, CopyOutlined, MoreOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { useAppSelector } from "../hooks/hooks";
 import { useUserInfo } from "../redux/features/auth/authSlice";
 import { useDeletePostMutation } from "../redux/features/post/postApi";
+import { Post } from "../pages/types/types";
+
 
 interface PostActionsMenuProps {
-  postId: string;
+  post: Post;
 }
 
-const PostActionsMenu: React.FC<PostActionsMenuProps> = ({ post, }) => {
-
-  
+const PostActionsMenu: React.FC<PostActionsMenuProps> = ({ post }) => {
   const postId = post?.post_id;
   const userInfo = useAppSelector(useUserInfo);
   const [deletePost, { isLoading }] = useDeletePostMutation();
@@ -33,7 +29,7 @@ const PostActionsMenu: React.FC<PostActionsMenuProps> = ({ post, }) => {
         try {
           const res = await deletePost(postId).unwrap();
           message.success(res?.data?.message || res?.message);
-        } catch (error) {
+        } catch (error:any) {
           message.error(error?.data?.message || error?.message);
         }
       },
@@ -51,7 +47,6 @@ const PostActionsMenu: React.FC<PostActionsMenuProps> = ({ post, }) => {
       });
   };
 
-  // Define menu items array
   const menuItems: MenuProps["items"] = [
     {
       key: "edit",
