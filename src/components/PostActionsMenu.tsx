@@ -14,7 +14,9 @@ interface PostActionsMenuProps {
   postId: string;
 }
 
-const PostActionsMenu: React.FC<PostActionsMenuProps> = ({ post }) => {
+const PostActionsMenu: React.FC<PostActionsMenuProps> = ({ post, }) => {
+
+  
   const postId = post?.post_id;
   const userInfo = useAppSelector(useUserInfo);
   const [deletePost, { isLoading }] = useDeletePostMutation();

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, ChangeEvent } from "react";
 import { Input, Button, List, message } from "antd";
 import { CommentOutlined } from "@ant-design/icons";
@@ -11,8 +13,12 @@ import { formatDistanceToNow } from "date-fns";
 import { useAppSelector } from "../hooks/hooks";
 import { useUserInfo } from "../redux/features/auth/authSlice";
 import { Link } from "react-router-dom";
+import { Comment, CommentsSectionProps } from "../pages/types/types";
 
-const CommentsSection = ({ totalComment, post }) => {
+const CommentsSection: React.FC<CommentsSectionProps> = ({
+  totalComment,
+  post,
+}) => {
   const userInfo = useAppSelector(useUserInfo);
   const [commentText, setCommentText] = useState<string>("");
   const { data, isLoading: commentLoading } = useGetSinglePostCommentQuery({
@@ -24,10 +30,8 @@ const CommentsSection = ({ totalComment, post }) => {
     useDeleteCommentMutation();
   const [hideComment, { isLoading: hideCommentLoading }] =
     useHideCommentMutation();
-
-  const [addComment, { isLoading: commentAddLoading }] = useAddCommentMutation(
-    {}
-  );
+  const [addComment, { isLoading: commentAddLoading }] =
+    useAddCommentMutation();
 
   const handleCommentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setCommentText(e.target.value);
@@ -46,7 +50,7 @@ const CommentsSection = ({ totalComment, post }) => {
         }).unwrap();
         message.success(res?.message || "Comment added");
         setCommentText("");
-      } catch (error) {
+      } catch (error: any) {
         message.error(error?.message || error?.data?.message);
       }
     } else {
@@ -59,7 +63,7 @@ const CommentsSection = ({ totalComment, post }) => {
       try {
         const res = await deleteComment(commentId).unwrap();
         message.success(res?.message || res?.data?.message);
-      } catch (error) {
+      } catch (error: any) {
         message.error(error?.message || error?.data?.message);
       }
     }
@@ -70,7 +74,7 @@ const CommentsSection = ({ totalComment, post }) => {
       try {
         const res = await hideComment(commentId).unwrap();
         message.success(res?.message || res?.data?.message);
-      } catch (error) {
+      } catch (error: any) {
         message.error(error?.message || error?.data?.message);
       }
     }
@@ -96,13 +100,9 @@ const CommentsSection = ({ totalComment, post }) => {
 
       <List
         className="mt-2 px-4 font-medium"
-        header={
-          totalComment == 0 && !totalComment
-            ? 0 + " " + "Comment"
-            : totalComment + " " + "Comments"
-        }
+        header={totalComment === 0 ? "0 Comments" : `${totalComment} Comments`}
         dataSource={data?.data}
-        renderItem={(item) => (
+        renderItem={(item: Comment) => (
           <List.Item>
             <List.Item.Meta
               avatar={
@@ -131,12 +131,12 @@ const CommentsSection = ({ totalComment, post }) => {
                         addSuffix: true,
                       })}
                     </p>
-                    {userInfo?.user_id == post?.createdBy && (
+                    {userInfo?.user_id === post?.createdBy && (
                       <button onClick={() => handleHideComment(item?.id)}>
                         hide
                       </button>
                     )}
-                    {userInfo?.user_id == item?.user_id && (
+                    {userInfo?.user_id === item?.user_id && (
                       <button
                         onClick={() => handleCommentRemove(item?.id)}
                         className="text-red-900"
@@ -147,7 +147,6 @@ const CommentsSection = ({ totalComment, post }) => {
                   </div>
                 </div>
               }
-              //todo-- add createdAt for comment date and comment user id same same current user than show delete button
             />
           </List.Item>
         )}

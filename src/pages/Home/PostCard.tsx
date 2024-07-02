@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
 import { Card, message, Avatar, Tooltip } from "antd";
 import {
@@ -8,7 +9,6 @@ import {
 } from "@ant-design/icons";
 import { format } from "date-fns";
 import PostActionsMenu from "../../components/PostActionsMenu";
-
 import {
   useAddLikeMutation,
   useGetAllPostsQuery,
@@ -16,24 +16,9 @@ import {
 import { useAppSelector } from "../../hooks/hooks";
 import { useUserInfo } from "../../redux/features/auth/authSlice";
 import { Link, useNavigate } from "react-router-dom";
+
+import { Post } from "../types/types";
 import CommentsSection from "../../components/CommentsSection ";
-
-interface Comment {
-  id: number;
-  text: string;
-  author: string;
-  postId: string;
-}
-
-interface Post {
-  _id: string;
-  post_id: string;
-  createdAt: string;
-  post_description: string;
-  post_image?: { url: string };
-  post_additional?: { likes: { user_id: string }[] };
-  user_info?: { avatar?: { url: string }; name: string };
-}
 
 const PostCard: React.FC = () => {
   const userInfo = useAppSelector(useUserInfo);
@@ -49,8 +34,8 @@ const PostCard: React.FC = () => {
     try {
       const res = await addLike({ postId, ...data }).unwrap();
       console.log(res);
-    } catch (error) {
-      if (error?.data?.message == "Key not found. Please Login First") {
+    } catch (error: any) {
+      if (error?.data?.message === "Key not found. Please Login First") {
         navigate("/login");
       }
       message.error(error?.message || error?.data?.message);
@@ -70,8 +55,7 @@ const PostCard: React.FC = () => {
           actions={[
             <span onClick={() => handleLike(post?.post_id)} key="like">
               {post?.post_additional?.likes?.some(
-                (like: { user_id: string | undefined }) =>
-                  like.user_id === userInfo?.user_id
+                (like) => like.user_id === userInfo?.user_id
               ) ? (
                 <LikeFilled
                   disabled={addLikeLoading}
@@ -129,7 +113,10 @@ const PostCard: React.FC = () => {
             <p className="text-gray-700 mb-3">{post?.post_description}</p>
           </div>
           {showComments === post?.post_id && (
-            <CommentsSection post={post} totalComment={post?.total_comment} />
+            <CommentsSection
+              post={post}
+              totalComment={post?.total_comment}
+            />
           )}
         </Card>
       ))}
