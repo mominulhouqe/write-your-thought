@@ -19,6 +19,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { Post } from "../types/types";
 import CommentsSection from "../../components/CommentsSection ";
+import Loading from "../../components/Loading";
 
 const PostCard: React.FC = () => {
   const userInfo = useAppSelector(useUserInfo);
@@ -45,6 +46,11 @@ const PostCard: React.FC = () => {
   const toggleComments = (postId: string) => {
     setShowComments((prev) => (prev === postId ? null : postId));
   };
+  if(isLoading){
+    return(
+      <Loading className="mt-12 h-screen"></Loading>
+    )
+  }
 
   return (
     <div className="mt-6 px-1">

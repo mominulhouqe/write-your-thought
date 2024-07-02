@@ -31,7 +31,7 @@ const SingleViewPost: React.FC<SingleViewPostProps> = () => {
 
   const { data: singlePost, isLoading: singlePostLoading } =
     useGetSinglePostByIdQuery({ postId: postId || "" }, { skip: !postId });
-  console.log(singlePost);
+    
 
   const handleLike = async (postId: HandleLikeParams['postId']) => {
     const data = { like: true };

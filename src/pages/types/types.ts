@@ -2,6 +2,9 @@
 
 export interface UserAvatar {
   url: string;
+  avatar: {
+    url: string | null;
+  };
 }
 
 export interface UserInfo {

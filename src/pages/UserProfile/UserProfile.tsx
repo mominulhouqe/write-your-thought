@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { UserInfo } from "../types/types"; // Adjust the import path as necessary
 
 const UserProfile: React.FC = () => {
-  const userInfo = useAppSelector(useUserInfo) as UserInfo;
+  const userInfo = useAppSelector(useUserInfo) as unknown as UserInfo;
 
   const containerVariants = {
     hidden: { opacity: 0, y: -20 },

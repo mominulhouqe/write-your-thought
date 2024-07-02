@@ -1,12 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Dropdown, Button, message, Modal } from "antd";
-import { EditOutlined, DeleteOutlined, CopyOutlined, MoreOutlined } from "@ant-design/icons";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  CopyOutlined,
+  MoreOutlined,
+} from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { useAppSelector } from "../hooks/hooks";
 import { useUserInfo } from "../redux/features/auth/authSlice";
 import { useDeletePostMutation } from "../redux/features/post/postApi";
 import { Post } from "../pages/types/types";
-
+import Loading from "./Loading";
 
 interface PostActionsMenuProps {
   post: Post;
@@ -29,7 +34,7 @@ const PostActionsMenu: React.FC<PostActionsMenuProps> = ({ post }) => {
         try {
           const res = await deletePost(postId).unwrap();
           message.success(res?.data?.message || res?.message);
-        } catch (error:any) {
+        } catch (error: any) {
           message.error(error?.data?.message || error?.message);
         }
       },
@@ -46,6 +51,10 @@ const PostActionsMenu: React.FC<PostActionsMenuProps> = ({ post }) => {
         message.error("Failed to copy content");
       });
   };
+
+  if (isLoading) {
+    return <Loading className="mt-12 h-screen"></Loading>;
+  }
 
   const menuItems: MenuProps["items"] = [
     {

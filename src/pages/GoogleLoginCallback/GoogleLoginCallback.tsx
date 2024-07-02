@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/hooks";
 import { useEffect } from "react";

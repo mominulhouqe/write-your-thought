@@ -14,6 +14,7 @@ import { useAppSelector } from "../hooks/hooks";
 import { useUserInfo } from "../redux/features/auth/authSlice";
 import { Link } from "react-router-dom";
 import { Comment, CommentsSectionProps } from "../pages/types/types";
+import Loading from "./Loading";
 
 const CommentsSection: React.FC<CommentsSectionProps> = ({
   totalComment,
@@ -80,6 +81,11 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({
     }
   };
 
+  if(commentAddLoading){
+    return(
+      <Loading className="mt-12 h-screen"></Loading>
+    )
+  }
   return (
     <div>
       <div className="flex justify-center items-start mt-2">
