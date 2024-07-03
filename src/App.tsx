@@ -1,13 +1,14 @@
 import { Outlet } from "react-router-dom";
-import "./App.css";
 
 import Navber from "./pages/Home/Navber";
 
 function App() {
   return (
-    <div className="bg-gray-200 h-full">
+    <div className="bg-gray-200 min-h-screen flex flex-col">
       <Navber />
-      <Outlet />
+      <div className="flex-grow">
+        <Outlet />
+      </div>
     </div>
   );
 }

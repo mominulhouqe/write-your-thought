@@ -59,7 +59,7 @@ const SingleViewPost: React.FC<SingleViewPostProps> = () => {
     : "Invalid date";
 
   return (
-    <div className="mt-6 px-1 max-w-3xl mx-auto">
+    <div className="mt-6 px-1 max-w-3xl mx-auto min-h-screen">
       <Card
         className="my-4 border rounded-lg shadow-md"
         actions={[

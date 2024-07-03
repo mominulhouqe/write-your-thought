@@ -66,13 +66,13 @@ const PostBox: React.FC = () => {
     }
 
     try {
-      await addPost(formData).unwrap();
-      message.success("Post added successfully");
+      const res = await addPost(formData).unwrap();
+      message.success(res?.message || res?.data?.message);
       setIsModalVisible(false);
       setPostText("");
       setFileList([]);
-    } catch (error) {
-      message.error("Failed to add post");
+    } catch (error:any) {
+      message.error(error?.message || error?.data?.message);
     }
   };
 
