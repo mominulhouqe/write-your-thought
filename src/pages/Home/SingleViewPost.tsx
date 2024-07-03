@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
-import { Card, Avatar, Tooltip, message, } from "antd";
+import { Card, Avatar, Tooltip, message } from "antd";
 import {
   LikeOutlined,
   CommentOutlined,
@@ -29,18 +29,17 @@ const SingleViewPost: React.FC<SingleViewPostProps> = () => {
   const userInfo = useAppSelector(useUserInfo);
   const [showComments, setShowComments] = useState<string | null>(null);
 
-  const { data: singlePost, isLoading: singlePostLoading } =
+  const { data: post, isLoading: singlePostLoading } =
     useGetSinglePostByIdQuery({ postId: postId || "" }, { skip: !postId });
-    
 
-  const handleLike = async (postId: HandleLikeParams['postId']) => {
+  const handleLike = async (postId: HandleLikeParams["postId"]) => {
     const data = { like: true };
     try {
       const res: AddLikeResponse = await addLike({ postId, ...data }).unwrap();
       console.log(res);
     } catch (error: any) {
-      if (error?.data?.message === 'Key not found. Please Login First') {
-        navigate('/login');
+      if (error?.data?.message === "Key not found. Please Login First") {
+        navigate("/login");
       }
       message.error(error?.message || error?.data?.message);
     }
@@ -51,26 +50,21 @@ const SingleViewPost: React.FC<SingleViewPostProps> = () => {
   };
 
   if (singlePostLoading) {
-    return (
-      <Loading className="mt-12 h-screen"></Loading>
-    );
+    return <Loading className="mt-12 h-screen"></Loading>;
   }
 
-  const postDate = new Date(singlePost?.data?.createdAt);
+  const postDate = new Date(post?.data?.createdAt);
   const formattedDate = isValid(postDate)
     ? format(postDate, "MMMM do, yyyy h:mm a")
     : "Invalid date";
 
   return (
-    <div className="mt-6 px-1 max-w-3xl mx-auto">
+    <div className="mt-6 px-1 max-w-3xl mx-auto min-h-screen">
       <Card
         className="my-4 border rounded-lg shadow-md"
         actions={[
-          <span
-            onClick={() => handleLike(singlePost?.data?.post_id)}
-            key="like"
-          >
-            {singlePost?.data?.post_additional?.likes?.some(
+          <span onClick={() => handleLike(post?.data?.post_id)} key="like">
+            {post?.data?.post_additional?.likes?.some(
               (like: { user_id: string | undefined }) =>
                 like.user_id === userInfo?.user_id
             ) ? (
@@ -78,22 +72,21 @@ const SingleViewPost: React.FC<SingleViewPostProps> = () => {
             ) : (
               <LikeOutlined disabled={addLikeLoading} />
             )}{" "}
-            {singlePost?.data?.post_additional?.likes?.length}
+            {post?.data?.post_additional?.likes?.length}
           </span>,
           <span
             key="comment"
-            onClick={() => toggleComments(singlePost?.data?.post_id)}
+            onClick={() => toggleComments(post?.data?.post_id)}
             className="cursor-pointer"
           >
             <CommentOutlined />{" "}
-            {singlePost?.data?.total_comment > 0 &&
-              singlePost?.data?.total_comment}
+            {post?.data?.total_comment > 0 && post?.data?.total_comment}
           </span>,
-          <PostActionsMenu key="actions" post={singlePost} />,
+          <PostActionsMenu key="actions" post={post?.data} />,
         ]}
       >
         <div className="flex items-center mb-4">
-          <Link to={`/user-profile/${singlePost?.data?.user_info?.user_id}`}>
+          <Link to={`/user-profile/${post?.data?.user_info?.user_id}`}>
             <Avatar
               src={
                 userInfo?.avatar?.url ||
@@ -118,21 +111,19 @@ const SingleViewPost: React.FC<SingleViewPostProps> = () => {
           </div>
         </div>
         <div>
-          {singlePost?.data?.post_image?.url && (
+          {post?.data?.post_image?.url && (
             <img
               className="w-full my-2 rounded-lg"
-              src={singlePost?.data?.post_image?.url}
+              src={post?.data?.post_image?.url}
               alt=""
             />
           )}
-          <p className="text-gray-700 mb-3">
-            {singlePost?.data?.post_description}
-          </p>
+          <p className="text-gray-700 mb-3">{post?.data?.post_description}</p>
         </div>
-        {showComments === singlePost?.data?.post_id && (
+        {showComments === post?.data?.post_id && (
           <CommentsSection
-            post={singlePost}
-            totalComment={singlePost?.data?.total_comment}
+            post={post?.data}
+            totalComment={post?.data?.total_comment}
           />
         )}
       </Card>
