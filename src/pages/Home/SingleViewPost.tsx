@@ -122,7 +122,7 @@ const SingleViewPost: React.FC<SingleViewPostProps> = () => {
         </div>
         {showComments === post?.data?.post_id && (
           <CommentsSection
-            post={post}
+            post={post?.data}
             totalComment={post?.data?.total_comment}
           />
         )}
