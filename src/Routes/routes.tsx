@@ -8,6 +8,7 @@ import GoogleLoginCallback from "../pages/GoogleLoginCallback/GoogleLoginCallbac
 import ErrorPage from "../components/ErrorPage";
 import SingleViewPost from "../pages/Home/SingleViewPost";
 import UserProfileView from "../pages/UserProfile/UserProfileView";
+import AdminHome from "../pages/Admin/AdminHome";
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -31,6 +32,7 @@ const routes = createBrowserRouter([
         path: "post-view/:postId",
         element: <SingleViewPost />,
       },
+     
     ],
   },
 
@@ -46,5 +48,9 @@ const routes = createBrowserRouter([
     path: "/register",
     element: <Register />,
   },
+  {
+    path:"/admin",
+    element:<AdminHome />
+  }
 ]);
 export default routes;
