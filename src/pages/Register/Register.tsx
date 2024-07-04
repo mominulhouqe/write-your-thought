@@ -7,8 +7,6 @@ import GoogleSign from "../../components/GoogleSign";
 import AnimationThought from "../../components/AnimationThought";
 import BorderCircle from "../../components/BorderCicle";
 import { Link } from "react-router-dom";
-import FacebookSign from "../FacebookSign/FacebookSign";
-
 
 interface RegisterFormInputs {
   email: string;
@@ -42,8 +40,8 @@ const Register: React.FC = () => {
     <AuthLayout>
       <div className="relative   md:grid grid-cols-2 ">
         <div className="md:flex hidden ">
-        <AnimationThought />
-        <BorderCircle />
+          <AnimationThought />
+          <BorderCircle />
         </div>
         <motion.div
           className="container mx-auto w-full  border rounded-lg shadow-lg bg-white p-6  z-10"
@@ -52,11 +50,15 @@ const Register: React.FC = () => {
           transition={{ duration: 0.8, delay: 1.2 }}
         >
           <h2 className="text-center text-3xl font-extrabold text-gray-900 mb-6">
-            Create account on <span className="text-blue-600 underline">Thought</span>
+            Create account on{" "}
+            <span className="text-blue-600 underline">Thought</span>
           </h2>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Name
               </label>
               <input
@@ -68,7 +70,10 @@ const Register: React.FC = () => {
               />
             </div>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Email address
               </label>
               <input
@@ -80,7 +85,10 @@ const Register: React.FC = () => {
               />
             </div>
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Password
               </label>
               <input
@@ -92,7 +100,11 @@ const Register: React.FC = () => {
               />
             </div>
             <div>
-              <Button htmlType="submit" type="primary" className="w-full py-2 rounded-md text-lg">
+              <Button
+                htmlType="submit"
+                type="primary"
+                className="w-full py-2 rounded-md text-lg"
+              >
                 Sign Up
               </Button>
             </div>
@@ -101,8 +113,7 @@ const Register: React.FC = () => {
             <div className="text-gray-500">or</div>
           </div>
           <GoogleSign onClick={handleGoogleSignIn} className="mt-4" />
-          <FacebookSign onClick={handleFacebookSignIn} className="mt-4" />
-        
+
           <div className="my-4 text-center">
             Already have an account?{" "}
             <Link className="hover:underline text-blue-500" to="/login">
