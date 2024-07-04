@@ -31,10 +31,6 @@ const Register: React.FC = () => {
     // Handle Google Sign-In logic here
     console.log("Signing in with Google...");
   };
-  const handleFacebookSignIn = () => {
-    // Handle Google Sign-In logic here
-    console.log("Signing in with facebook...");
-  };
 
   return (
     <AuthLayout>

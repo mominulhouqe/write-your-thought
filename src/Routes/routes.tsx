@@ -9,6 +9,7 @@ import ErrorPage from "../components/ErrorPage";
 import SingleViewPost from "../pages/Home/SingleViewPost";
 import UserProfileView from "../pages/UserProfile/UserProfileView";
 import AdminHome from "../pages/Admin/AdminHome";
+import AuthenticatedRoute from "./AuthenticatedRoute";
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -25,14 +26,17 @@ const routes = createBrowserRouter([
       },
       {
         path: "user-profile",
-        element: <UserProfileView />,
+        element: (
+          <AuthenticatedRoute>
+            <UserProfileView />
+          </AuthenticatedRoute>
+        ),
       },
 
       {
         path: "post-view/:postId",
         element: <SingleViewPost />,
       },
-     
     ],
   },
 
@@ -49,8 +53,8 @@ const routes = createBrowserRouter([
     element: <Register />,
   },
   {
-    path:"/admin",
-    element:<AdminHome />
-  }
+    path: "/admin",
+    element: <AdminHome />,
+  },
 ]);
 export default routes;
