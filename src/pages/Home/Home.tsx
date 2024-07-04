@@ -1,10 +1,15 @@
 import UserProfile from "../UserProfile/UserProfile";
 import PostBox from "./PostBox";
 import PostCard from "./PostCard";
-
+import { motion } from "framer-motion";
 const Home = () => {
   return (
-    <div className="mx-auto container mt-3 w-full flex gap-4 px-1 ">
+    <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ duration: 0.5 }}
+
+    className="mx-auto container mt-3 w-full flex gap-4 px-1 ">
       <div className="w-80 hidden md:block h-screen ">
         <div className="fixed w-80 top-[60px] overflow-auto">
           <UserProfile></UserProfile>
@@ -14,7 +19,7 @@ const Home = () => {
         <PostBox />
         <PostCard />
       </div>
-    </div>
+    </motion.div>
   );
 };
 
