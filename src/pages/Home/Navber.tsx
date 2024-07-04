@@ -4,14 +4,13 @@ import { logout, useUserInfo } from "../../redux/features/auth/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogoutReqMutation } from "../../redux/features/auth/authApi";
 import { UserAddOutlined, LogoutOutlined } from "@ant-design/icons";
-import { DrawerProps, RadioChangeEvent } from "antd";
-import CustomDrawer from "../../components/CustomDrawer";
+import { Drawer } from "antd";
 
 const Navber: React.FC = () => {
-  const [open, setOpen] = useState(false);
   const userInfo = useAppSelector(useUserInfo);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [drawerVisible, setDrawerVisible] = useState(false);
 
   const [logoutReq] = useLogoutReqMutation();
 
@@ -24,18 +23,12 @@ const Navber: React.FC = () => {
     }
   };
 
-  const [placement, setPlacement] = useState<DrawerProps["placement"]>("left");
-
   const showDrawer = () => {
-    setOpen(true);
+    setDrawerVisible(true);
   };
 
   const onClose = () => {
-    setOpen(false);
-  };
-
-  const onChange = (e: RadioChangeEvent) => {
-    setPlacement(e.target.value);
+    setDrawerVisible(false);
   };
 
   return (
@@ -96,13 +89,12 @@ const Navber: React.FC = () => {
         </button>
       </div>
 
-      <CustomDrawer
-        title="Basic Drawer"
-        placement={placement}
-        open={open}
+      <Drawer
+        title="Menu"
+        placement="left"
         onClose={onClose}
-        onOpen={showDrawer}
-        onPlacementChange={onChange}
+        open={drawerVisible}
+        width={250}
       >
         <ul className="flex flex-col items-center text-lg">
           <li className="my-2">
@@ -143,7 +135,7 @@ const Navber: React.FC = () => {
             </li>
           )}
         </ul>
-      </CustomDrawer>
+      </Drawer>
     </div>
   );
 };
