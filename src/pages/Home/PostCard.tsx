@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
-import { Card, message, Avatar, Tooltip } from "antd";
+import { Card, message, Avatar, Tooltip, Skeleton } from "antd";
 import {
   LikeOutlined,
   LikeFilled,
@@ -19,7 +19,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { Post } from "../types/types";
 import CommentsSection from "../../components/CommentsSection ";
-import Loading from "../../components/Loading";
 
 const PostCard: React.FC = () => {
   const userInfo = useAppSelector(useUserInfo);
@@ -29,6 +28,12 @@ const PostCard: React.FC = () => {
   const [addLike, { isLoading: addLikeLoading }] = useAddLikeMutation();
 
   const handleLike = async (postId: string) => {
+    if (!userInfo?.email) {
+      // User is not logged in, redirect to login page
+      navigate("/login");
+      return;
+    }
+    
     const data = {
       like: true,
     };
@@ -46,81 +51,97 @@ const PostCard: React.FC = () => {
   const toggleComments = (postId: string) => {
     setShowComments((prev) => (prev === postId ? null : postId));
   };
-  if (isLoading) {
-    return <Loading className="mt-12 h-screen"></Loading>;
-  }
+
+  const handlePostClick = (postId: string) => {
+    if (!userInfo?.email) {
+      navigate("/login");
+      return;
+    }
+    navigate(`/post-view/${postId}`);
+  };
 
   return (
     <div className="mt-6 px-1">
-      {posts?.data?.map((post: Post) => (
-        <Card
-          key={post?._id}
-          className="my-4 border rounded-lg shadow-md"
-          actions={[
-            <span onClick={() => handleLike(post?.post_id)} key="like">
-              {post?.post_additional?.likes?.some(
-                (like) => like.user_id === userInfo?.user_id
-              ) ? (
-                <LikeFilled
-                  disabled={addLikeLoading}
-                  className="text-blue-500"
+      {isLoading ? (
+        // Skeleton loading state
+        <div className="space-y-4">
+          {[...Array(3)].map((_, index) => (
+            <Card key={index} className="my-4 border rounded-lg shadow-md">
+              <Skeleton loading={isLoading} avatar paragraph={{ rows: 4 }} />
+            </Card>
+          ))}
+        </div>
+      ) : (
+        posts?.data?.map((post: Post) => (
+          <Card
+            key={post?._id}
+            className="my-4 border rounded-lg shadow-md"
+            actions={[
+              <span onClick={() => handleLike(post?.post_id)} key="like">
+                {post?.post_additional?.likes?.some(
+                  (like) => like.user_id === userInfo?.user_id
+                ) ? (
+                  <LikeFilled
+                    disabled={addLikeLoading}
+                    className="text-blue-500"
+                  />
+                ) : (
+                  <LikeOutlined disabled={addLikeLoading} />
+                )}{" "}
+                {post?.post_additional?.likes?.length}
+              </span>,
+              <span
+                key="comment"
+                onClick={() => toggleComments(post?.post_id)}
+                className="cursor-pointer"
+              >
+                <CommentOutlined />{" "}
+                {post?.total_comment > 0 && post?.total_comment}
+              </span>,
+              <PostActionsMenu key="actions" post={post} />,
+            ]}
+          >
+            <div className="flex items-center mb-4">
+              <Link to="/user-profile">
+                <Avatar
+                  src={
+                    post?.user_info?.avatar?.url ||
+                    "https://api.dicebear.com/7.x/miniavs/svg?seed=8"
+                  }
+                  size="large"
+                  className="border-2 border-blue-500"
                 />
-              ) : (
-                <LikeOutlined disabled={addLikeLoading} />
-              )}{" "}
-              {post?.post_additional?.likes?.length}
-            </span>,
-            <span
-              key="comment"
-              onClick={() => toggleComments(post?.post_id)}
-              className="cursor-pointer"
-            >
-              <CommentOutlined />{" "}
-              {post?.total_comment > 0 && post?.total_comment}
-            </span>,
-            <PostActionsMenu key="actions" post={post} />,
-          ]}
-        >
-          <div className="flex items-center mb-4">
-            <Link to="/user-profile">
-              <Avatar
-                src={
-                  post?.user_info?.avatar?.url ||
-                  "https://api.dicebear.com/7.x/miniavs/svg?seed=8"
-                }
-                size="large"
-                className="border-2 border-blue-500"
-              />
-            </Link>
-            <div className="ml-4">
-              <h4 className="font-medium text-lg capitalize">
-                {post?.user_info?.name}
-              </h4>
-              <Tooltip title={format(new Date(post?.createdAt), "PPPp")}>
-                <span className="text-gray-500">
-                  {format(new Date(post?.createdAt), "MMMM do, yyyy h:mm a")}
-                </span>
-              </Tooltip>
+              </Link>
+              <div className="ml-4">
+                <h4 className="font-medium text-lg capitalize">
+                  {post?.user_info?.name}
+                </h4>
+                <Tooltip title={format(new Date(post?.createdAt), "PPPp")}>
+                  <span className="text-gray-500">
+                    {format(new Date(post?.createdAt), "MMMM do, yyyy h:mm a")}
+                  </span>
+                </Tooltip>
+              </div>
+              <div className="ml-auto">
+                <MoreOutlined className="text-lg" />
+              </div>
             </div>
-            <div className="ml-auto">
-              <MoreOutlined className="text-lg" />
+            <div onClick={() => handlePostClick(post?.post_id)}>
+              {post?.post_image?.url && (
+                <img
+                  className="w-full my-2 rounded-lg"
+                  src={post?.post_image?.url}
+                  alt=""
+                />
+              )}
+              <p className="text-gray-700 mb-3">{post?.post_description}</p>
             </div>
-          </div>
-          <div onClick={() => navigate(`/post-view/${post?.post_id}`)}>
-            {post?.post_image?.url && (
-              <img
-                className="w-full my-2 rounded-lg"
-                src={post?.post_image?.url}
-                alt=""
-              />
+            {showComments === post?.post_id && (
+              <CommentsSection post={post} totalComment={post?.total_comment} />
             )}
-            <p className="text-gray-700 mb-3">{post?.post_description}</p>
-          </div>
-          {showComments === post?.post_id && (
-            <CommentsSection post={post} totalComment={post?.total_comment} />
-          )}
-        </Card>
-      ))}
+          </Card>
+        ))
+      )}
     </div>
   );
 };
