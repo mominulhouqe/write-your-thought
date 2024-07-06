@@ -61,7 +61,7 @@ const Navbar: React.FC <NavbarProps> = ({ darkMode, handleThemeChange,  })  => {
         </Link>
       </Menu.Item>
       <Menu.Item key="1">
-        <Link to="/settings">
+        <Link to="/profile-setting">
           <SettingOutlined /> Settings
         </Link>
       </Menu.Item>

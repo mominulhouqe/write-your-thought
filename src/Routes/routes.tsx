@@ -10,6 +10,10 @@ import SingleViewPost from "../pages/Home/SingleViewPost";
 import UserProfileView from "../pages/UserProfile/UserProfileView";
 import AdminHome from "../pages/Admin/AdminHome";
 import AuthenticatedRoute from "./AuthenticatedRoute";
+import PostManagement from "../pages/Admin/PostManagement/PostManagement";
+import AdminHomeLayout from "../pages/Admin/AdminHomeLayout";
+import UserManagement from "../pages/Admin/UserManagement/UserManagement";
+import AdminActions from "../pages/Admin/AdminAction/AdminAction";
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -55,6 +59,24 @@ const routes = createBrowserRouter([
   {
     path: "/admin",
     element: <AdminHome />,
+    children:[
+      {
+        index:true,
+        element:<AdminHomeLayout />
+      },
+      {
+        path:"all-posts",
+        element:<PostManagement />
+      },
+      {
+        path:"all-users",
+        element:<UserManagement />
+      },
+      {
+        path:"activitis",
+        element:<AdminActions />
+      },
+    ]
   },
 ]);
 export default routes;

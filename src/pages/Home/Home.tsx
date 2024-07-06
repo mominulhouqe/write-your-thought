@@ -11,7 +11,7 @@ const Home = () => {
 
     className="mx-auto container mt-3 w-full flex gap-4 px-1 ">
       <div className="w-80 hidden md:block h-screen ">
-        <div className="fixed w-80 top-[60px] overflow-auto">
+        <div className="fixed w-80 top-[60px]">
           <UserProfile></UserProfile>
         </div>
       </div>

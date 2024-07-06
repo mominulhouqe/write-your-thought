@@ -2,25 +2,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
-import { useAppSelector } from "../hooks/hooks";
-import { useUserInfo } from "../redux/features/auth/authSlice";
-import { Switch, Button, Card, Row, Col, Statistic } from "antd";
-import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import PostCard from "../pages/Home/PostCard";
-import { UserInfo } from "../pages/types/types";
-import { useGetAllPostsQuery } from "../redux/features/post/postApi";
+import { Switch, Button, Card, Row, Col, Statistic } from 'antd';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-
-
-
-interface TabContentProps {
-  type: string;
-  posts?: any[];
-  settings?: any;
-  followers?:any;
-  engagement?:any;
-}
 
 const followerGrowthData = [
   { month: 'Jan', followers: 50 },
@@ -31,14 +16,22 @@ const followerGrowthData = [
   { month: 'Jun', followers: 250 },
 ];
 
-const TabContent: React.FC<TabContentProps> = ({ type, posts, settings,followers,engagement }) => {
+interface TabContentProps {
+  type: string;
+  posts?: any[];
+  settings?: any;
+  followers?: any;
+  engagement?: any;
+}
+
+const TabContent: React.FC<TabContentProps> = ({ type, posts, settings }) => {
   const [isFollowing, setIsFollowing] = useState(false);
 
   const toggleFollow = () => {
     setIsFollowing(!isFollowing);
   };
 
-  if (type === "overview") {
+  if (type === 'overview') {
     return (
       <div className="text-center">
         <h2 className="text-2xl font-semibold text-blue-600">Achievements</h2>
@@ -47,10 +40,9 @@ const TabContent: React.FC<TabContentProps> = ({ type, posts, settings,followers
     );
   }
 
-  if (type === "posts") {
+  if (type === 'posts') {
     return (
       <div>
-       
         {posts && posts.length > 0 ? (
           posts.map((post) => (
             <motion.div
@@ -70,7 +62,7 @@ const TabContent: React.FC<TabContentProps> = ({ type, posts, settings,followers
     );
   }
 
-  if (type === "settings") {
+  if (type === 'settings') {
     return (
       <div>
         <h2 className="text-2xl font-semibold mb-4 text-blue-600">Settings</h2>
@@ -85,12 +77,9 @@ const TabContent: React.FC<TabContentProps> = ({ type, posts, settings,followers
         </div>
         <div className="mb-4">
           <p className="text-gray-800">
-            Notifications: {settings?.notifications ? "Enabled" : "Disabled"}
+            Notifications: {settings?.notifications ? 'Enabled' : 'Disabled'}
           </p>
-          <Switch
-            checked={settings?.notifications}
-            onChange={(_checked) => {}}
-          />
+          <Switch checked={settings?.notifications} onChange={(_checked) => {}} />
         </div>
         <div className="mb-4">
           <p className="text-gray-800">Privacy Settings</p>
@@ -100,7 +89,7 @@ const TabContent: React.FC<TabContentProps> = ({ type, posts, settings,followers
     );
   }
 
-  if (type === "followers") {
+  if (type === 'followers') {
     return (
       <div>
         <motion.div
@@ -121,15 +110,15 @@ const TabContent: React.FC<TabContentProps> = ({ type, posts, settings,followers
           </Card>
         </motion.div>
         <div className="text-center mb-4">
-          {/* <Button type={isFollowing ? "danger" : "primary"} onClick={toggleFollow}>
-            {isFollowing ? "Unfollow" : "Follow"}
-          </Button> */}
+          <Button type={isFollowing ? 'danger' : 'primary'} onClick={toggleFollow}>
+            {isFollowing ? 'Unfollow' : 'Follow'}
+          </Button>
         </div>
       </div>
     );
   }
 
-  if (type === "engagement") {
+  if (type === 'engagement') {
     return (
       <div>
         <motion.div

@@ -1,7 +1,7 @@
 import React from "react";
 import { Menu, Dropdown } from "antd";
 import { UserOutlined, SettingOutlined, LogoutOutlined, DownOutlined } from "@ant-design/icons";
-import { useNavigate, Link } from "react-router-dom";
+import {  Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 interface ProfileDropdownProps {
@@ -9,7 +9,7 @@ interface ProfileDropdownProps {
 }
 
 const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ onLogout }) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const menu = (
     <Menu>

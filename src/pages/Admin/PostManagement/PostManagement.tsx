@@ -2,13 +2,23 @@ import React from 'react';
 import { Button, Card, List, Popconfirm } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
-interface PostManagementProps {
-    posts: { id: string, content: string }[];
-    onDeletePost: (postId: string) => void;
-    onRestrictPost: (postId: string) => void;
-}
 
-const PostManagement: React.FC<PostManagementProps> = ({ posts, onDeletePost, onRestrictPost }) => {
+
+const PostManagement: React.FC = () => {
+    const posts = [
+        { id: "1", content: "Sample Post 1" },
+        { id: "2", content: "Sample Post 2" },
+      ];
+
+      
+  const handleDeletePost = (postId: string) => {
+    console.log("Post deleted:", postId);
+  };
+
+  const handleRestrictPost = (postId: string) => {
+    console.log("Post restricted:", postId);
+  };
+
     return (
         <Card title="Posts Management" className="shadow-lg">
             <List
@@ -16,8 +26,8 @@ const PostManagement: React.FC<PostManagementProps> = ({ posts, onDeletePost, on
                 renderItem={item => (
                     <List.Item
                         actions={[
-                            <Button icon={<EditOutlined />} onClick={() => onRestrictPost(item.id)}>Restrict</Button>,
-                            <Popconfirm title="Are you sure to delete this post?" onConfirm={() => onDeletePost(item.id)}>
+                            <Button icon={<EditOutlined />} onClick={() => handleRestrictPost(item.id)}>Restrict</Button>,
+                            <Popconfirm title="Are you sure to delete this post?" onConfirm={() => handleDeletePost(item.id)}>
                                 <Button icon={<DeleteOutlined />} danger>Delete</Button>
                             </Popconfirm>,
                         ]}

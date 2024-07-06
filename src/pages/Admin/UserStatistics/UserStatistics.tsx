@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Card } from 'antd';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 

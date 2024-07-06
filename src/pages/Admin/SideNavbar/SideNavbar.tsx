@@ -2,13 +2,13 @@ import { useState } from "react";
 import {
   AppstoreOutlined,
   MailOutlined,
-  SettingOutlined,
   MenuOutlined,
   UserAddOutlined,
+  HistoryOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Button, Menu, Drawer } from "antd";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAppSelector } from "../../../hooks/hooks";
 import { useUserInfo } from "../../../redux/features/auth/authSlice";
@@ -18,22 +18,23 @@ type MenuItem = Required<MenuProps>["items"][number];
 const items: MenuItem[] = [
   {
     key: "sub1",
-    label: "Navigation One",
+    label: "Posts Management",
     icon: <MailOutlined />,
     children: [
-      { key: "1", label: "Option 1" },
-      { key: "2", label: "Option 2" },
-      { key: "3", label: "Option 3" },
-      { key: "4", label: "Option 4" },
+      { key: "1", label: <NavLink to="all-posts">All Post</NavLink> },
+      { key: "2", label: "Restics Post" },
+      { key: "3", label: "Report's Post" },
     ],
   },
   {
     key: "sub2",
-    label: "Navigation Two",
+    label: "User Management",
     icon: <AppstoreOutlined />,
     children: [
-      { key: "5", label: "Option 5" },
-      { key: "6", label: "Option 6" },
+      { key: "5", label: <NavLink to="all-users">All User's</NavLink> },
+
+      { key: "7", label: "Reported User's" },
+      { key: "8", label: "Blocked User's" },
       {
         key: "sub3",
         label: "Submenu",
@@ -44,16 +45,11 @@ const items: MenuItem[] = [
       },
     ],
   },
+
   {
-    key: "sub4",
-    label: "Navigation Three",
-    icon: <SettingOutlined />,
-    children: [
-      { key: "9", label: "Option 9" },
-      { key: "10", label: "Option 10" },
-      { key: "11", label: "Option 11" },
-      { key: "12", label: "Option 12" },
-    ],
+    key: "9",
+    icon:<HistoryOutlined></HistoryOutlined>,
+    label: <NavLink to="activitis">Activitis</NavLink>,
   },
 ];
 
@@ -76,7 +72,7 @@ const SideNavbar = () => {
 
   return (
     <>
-      <div className="fixed top-0 z-50 w-full lg:w-64 lg:min-h-screen bg-white border-r border-gray-200 shadow-md">
+      <div className="fixed top-0 z-50 w-full lg:w-72 lg:min-h-screen bg-white border-r border-gray-200 shadow-md">
         {/* Mobile Menu Button */}
         <div className="lg:hidden p-4">
           <Button type="primary" onClick={showDrawer}>
@@ -93,7 +89,7 @@ const SideNavbar = () => {
           width={256}
         >
           <Menu
-            defaultSelectedKeys={['1']}
+            defaultSelectedKeys={["1"]}
             onClick={onClick}
             selectedKeys={[current]}
             mode="inline"
@@ -119,12 +115,14 @@ const SideNavbar = () => {
               )}
             </Link>
             <span className="mt-2 text-lg font-semibold">{userInfo?.name}</span>
-            <span className="text-sm text-gray-600">Role: {userInfo?.role}</span>
+            <span className="text-sm text-gray-600">
+              Role: {userInfo?.role}
+            </span>
           </div>
 
           {/* Menu */}
           <Menu
-            defaultSelectedKeys={['1']}
+            defaultSelectedKeys={["1"]}
             onClick={onClick}
             selectedKeys={[current]}
             mode="inline"

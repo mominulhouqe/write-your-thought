@@ -6,7 +6,7 @@ import SaveButton from "./SavesButton";
 const ProfileCard = () => {
   return (
     <div className="bg-gray-200 ">
-      <section className="max-w-3xl mx-auto mt-16 overflow-hidden">
+      <section className="max-w-3xl mx-auto ">
         <motion.div
           className="bg-white rounded-lg shadow-md border p-4 flex justify-between items-center my-4"
           initial={{ opacity: 0, y: 50 }}
