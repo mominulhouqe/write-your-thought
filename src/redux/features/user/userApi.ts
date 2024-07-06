@@ -9,10 +9,18 @@ const userApi = baseApi.injectEndpoints({
       }),
       providesTags: ["User"],
     }),
+    fetchLoginSuccess: builder.query({
+      query: () => ({
+        url: `/users/google-login/success`,
+        method: "GET",
+      }),
+      providesTags: ["User"],
+    }),
   }),
 });
 
-export const { useFetchCurrentUserMutation } = userApi;
+export const { useFetchCurrentUserMutation, useFetchLoginSuccessQuery } =
+  userApi;
 
 /* 
 
