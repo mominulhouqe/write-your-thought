@@ -10,6 +10,7 @@ import SingleViewPost from "../pages/Home/SingleViewPost";
 import UserProfileView from "../pages/UserProfile/UserProfileView";
 import AdminHome from "../pages/Admin/AdminHome";
 import AuthenticatedRoute from "./AuthenticatedRoute";
+import Failure from "../pages/GoogleLoginCallback/Failure/Failure";
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -47,6 +48,10 @@ const routes = createBrowserRouter([
   {
     path: "/login/success",
     element: <GoogleLoginCallback />,
+  },
+  {
+    path: "/login/failure",
+    element: <Failure />,
   },
   {
     path: "/register",

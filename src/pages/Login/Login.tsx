@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "antd";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
@@ -6,7 +6,7 @@ import AuthLayout from "../../components/AuthLayout";
 import GoogleSign from "../../components/GoogleSign";
 import AnimationThought from "../../components/AnimationThought";
 import BorderCircle from "../../components/BorderCicle";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../redux/features/auth/authApi";
 import { jwtDecode } from "jwt-decode";
 import { useAppDispatch } from "../../hooks/hooks";
@@ -16,6 +16,7 @@ import {
   setUserInfo,
 } from "../../redux/features/auth/authSlice";
 import { useFetchCurrentUserMutation } from "../../redux/features/user/userApi";
+import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 
 interface LoginFormInputs {
   email: string;
@@ -24,8 +25,11 @@ interface LoginFormInputs {
 
 const Login: React.FC = () => {
   const { register, handleSubmit } = useForm<LoginFormInputs>();
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [hideGoogle, setHideGoogle] = useState<boolean>(false);
+  const location = useLocation();
 
-  const [login] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
   const [fetchCurrentUser] = useFetchCurrentUserMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -54,19 +58,25 @@ const Login: React.FC = () => {
         navigate("/");
       } catch (error) {
         dispatch(logout());
-        console.log(error);
+        setErrorMessage(error?.data?.message);
       }
     } catch (error) {
-      console.log(error);
+      setErrorMessage(error?.data?.message || error?.message);
     }
   };
-  // Handle login logic here
 
   const handleGoogleSignIn = () => {
-    // Handle Google Sign-In logic here
     window.location.href = "http://localhost:8000/api/v2/users/google";
   };
 
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const error = searchParams.get("error");
+    if (error == "duplicate_email") {
+      setHideGoogle(true);
+      setErrorMessage("Login failed. Please try without google.");
+    }
+  }, [location]);
   return (
     <AuthLayout>
       <div className="abs z-0 flex overflow-hidden">
@@ -114,16 +124,30 @@ const Login: React.FC = () => {
               {...register("password", { required: true })}
             />
           </div>
+          {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
+
           <div>
-            <Button htmlType="submit" type="primary" className="w-full">
-              Sign In
+            <Button
+              disabled={isLoading}
+              htmlType="submit"
+              type="primary"
+              className="w-full"
+            >
+              {isLoading ? "Please wait..." : "Sign In"}
             </Button>
           </div>
         </form>
-        <div className="flex items-center justify-center space-x-2 mt-2">
-          <div className="text-gray-500">or</div>
-        </div>
-        <GoogleSign onClick={handleGoogleSignIn} className="mt-2" />
+        {!hideGoogle && (
+          <>
+            <div className="flex items-center justify-center space-x-2 mt-2">
+              <div className="text-gray-500">or</div>
+            </div>
+            <button className="w-full" disabled={isLoading}>
+              <GoogleSign onClick={handleGoogleSignIn} className="mt-2" />
+            </button>
+          </>
+        )}
+
         <div className="my-4">
           Don't have account? <Link to="/register">Register</Link>
         </div>

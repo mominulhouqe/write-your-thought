@@ -76,7 +76,7 @@ const Navber: React.FC = () => {
               onClick={() => navigate("/login")}
               className="mx-2 cursor-pointer border px-3 py-2 text-lg font-bold rounded-md shadow-sm bg-blue-500 text-white "
             >
-              <a href="#">Login</a>
+              <p>Login</p>
             </li>
           )}
         </ul>

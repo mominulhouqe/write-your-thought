@@ -16,11 +16,21 @@ const userApi = baseApi.injectEndpoints({
       }),
       providesTags: ["User"],
     }),
+    fetchLoginFailure: builder.query({
+      query: () => ({
+        url: `/users/google-login/failure`,
+        method: "GET",
+      }),
+      providesTags: ["User"],
+    }),
   }),
 });
 
-export const { useFetchCurrentUserMutation, useFetchLoginSuccessQuery } =
-  userApi;
+export const {
+  useFetchCurrentUserMutation,
+  useFetchLoginSuccessQuery,
+  useFetchLoginFailureQuery,
+} = userApi;
 
 /* 
 
