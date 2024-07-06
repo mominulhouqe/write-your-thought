@@ -112,7 +112,7 @@ const PostCard: React.FC = () => {
                   className="border-2 border-blue-500"
                 />
               </Link>
-              <div className="ml-4">
+              <Link to={"/user-profile"} className="ml-4">
                 <h4 className="font-medium text-lg capitalize">
                   {post?.user_info?.name}
                 </h4>
@@ -121,7 +121,7 @@ const PostCard: React.FC = () => {
                     {format(new Date(post?.createdAt), "MMMM do, yyyy h:mm a")}
                   </span>
                 </Tooltip>
-              </div>
+              </Link>
               <div className="ml-auto">
                 <MoreOutlined className="text-lg" />
               </div>

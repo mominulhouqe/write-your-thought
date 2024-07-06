@@ -1,56 +1,51 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/hooks";
-import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import {
   logout,
   setUser,
   setUserInfo,
 } from "../../redux/features/auth/authSlice";
-import { useFetchCurrentUserMutation } from "../../redux/features/user/userApi";
+import {
+  useFetchCurrentUserMutation,
+  useFetchLoginSuccessQuery,
+} from "../../redux/features/user/userApi";
+import { useEffect } from "react";
 
 const GoogleLoginCallback = () => {
-  const location = useLocation();
+  const { data: loginInfo } = useFetchLoginSuccessQuery({});
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [fetchCurrentUser] = useFetchCurrentUserMutation();
 
-  useEffect(() => {
-    const handleGoogleLogin = async () => {
-      const params = new URLSearchParams(location.search);
-      const accessToken = params.get("accessToken");
+  const mainTainUser = async () => {
+    if (loginInfo?.data?.user_id) {
+      const token = loginInfo?.accessToken;
+      const decoded = jwtDecode(token);
 
-      if (accessToken) {
-        try {
-          const decoded = jwtDecode(accessToken);
-          const user = {
-            user: decoded,
-            token: accessToken,
-          };
+      const user = {
+        user: decoded,
+        token: token,
+      };
 
-          dispatch(setUser(user));
-
-          try {
-            const userInfoRes = await fetchCurrentUser({}).unwrap();
-            dispatch(setUserInfo(userInfoRes?.data));
-            navigate("/");
-          } catch (error) {
-            dispatch(logout());
-            console.log(error, "inside error");
-            navigate("/login");
-          }
-        } catch (error) {
-          navigate("/login");
-          console.error("Error during Google login:", error);
-        }
-      } else {
-        navigate("/login");
+      dispatch(setUser(user));
+      try {
+        const userInfoRes = await fetchCurrentUser({}).unwrap();
+        dispatch(setUserInfo(userInfoRes?.data));
+        navigate("/");
+      } catch (error) {
+        dispatch(logout());
+        console.log(error);
       }
-    };
+    }
+  };
 
-    handleGoogleLogin();
-  }, [location, dispatch, navigate]);
+  useEffect(() => {
+    mainTainUser();
+  }, [loginInfo?.data?.user_id]);
+
   return <div>Loading...</div>;
 };
 

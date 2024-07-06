@@ -16,7 +16,6 @@ import {
   setUserInfo,
 } from "../../redux/features/auth/authSlice";
 import { useFetchCurrentUserMutation } from "../../redux/features/user/userApi";
-import FacebookSign from "../FacebookSign/FacebookSign";
 
 interface LoginFormInputs {
   email: string;
@@ -65,15 +64,8 @@ const Login: React.FC = () => {
 
   const handleGoogleSignIn = () => {
     // Handle Google Sign-In logic here
-    console.log("Signing in with Google...");
     window.location.href = "http://localhost:8000/api/v2/users/google";
   };
-
-  const handleFacebookSignIn = () => {
-    // Handle Google Sign-In logic here
-    console.log("Signing in with facebook...");
-  };
-
 
   return (
     <AuthLayout>
@@ -132,10 +124,9 @@ const Login: React.FC = () => {
           <div className="text-gray-500">or</div>
         </div>
         <GoogleSign onClick={handleGoogleSignIn} className="mt-2" />
-        <FacebookSign onClick={handleFacebookSignIn} className="mt-2" />
-      <div className="my-4">
-        Don't have account? <Link to="/register">Register</Link>
-      </div>
+        <div className="my-4">
+          Don't have account? <Link to="/register">Register</Link>
+        </div>
       </motion.div>
     </AuthLayout>
   );
