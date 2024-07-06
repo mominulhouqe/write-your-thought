@@ -121,9 +121,9 @@ const TabContent: React.FC<TabContentProps> = ({ type, posts, settings,followers
           </Card>
         </motion.div>
         <div className="text-center mb-4">
-          <Button type={isFollowing ? "danger" : "primary"} onClick={toggleFollow}>
+          {/* <Button type={isFollowing ? "danger" : "primary"} onClick={toggleFollow}>
             {isFollowing ? "Unfollow" : "Follow"}
-          </Button>
+          </Button> */}
         </div>
       </div>
     );
