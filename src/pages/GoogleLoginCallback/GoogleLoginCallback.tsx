@@ -14,11 +14,13 @@ import {
 import { useEffect } from "react";
 
 const GoogleLoginCallback = () => {
-  const { data: loginInfo } = useFetchLoginSuccessQuery({});
+  const { data: loginInfo, isLoading: LoginInfoLoading } =
+    useFetchLoginSuccessQuery({});
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [fetchCurrentUser] = useFetchCurrentUserMutation();
+  const [fetchCurrentUser, { isLoading: fetchCurrentUserLoading }] =
+    useFetchCurrentUserMutation();
 
   const mainTainUser = async () => {
     if (loginInfo?.data?.user_id) {
@@ -46,7 +48,9 @@ const GoogleLoginCallback = () => {
     mainTainUser();
   }, [loginInfo?.data?.user_id]);
 
-  return <div>Loading...</div>;
+  if (LoginInfoLoading || fetchCurrentUserLoading) {
+    return <div>Loading...</div>;
+  }
 };
 
 export default GoogleLoginCallback;

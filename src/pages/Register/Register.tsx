@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "antd";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
@@ -7,29 +7,52 @@ import GoogleSign from "../../components/GoogleSign";
 import AnimationThought from "../../components/AnimationThought";
 import BorderCircle from "../../components/BorderCicle";
 import { Link } from "react-router-dom";
+import { useRegisterUserMutation } from "../../redux/features/auth/authApi";
+import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 
 interface RegisterFormInputs {
   email: string;
   name: string;
   password: string;
+  avatar: FileList;
 }
 
 const Register: React.FC = () => {
   const { register, handleSubmit } = useForm<RegisterFormInputs>();
+  const [registerUser, { isLoading: registerLoading }] =
+    useRegisterUserMutation();
+  const [successMessage, setSuccessMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const onSubmit = async (data: RegisterFormInputs) => {
     const userInfo = {
       email: data.email,
       name: data.name,
       password: data.password,
+      avatar: data.avatar[0],
     };
+
+    const formData = new FormData();
+    formData.append("name", userInfo?.name);
+    formData.append("email", userInfo?.email);
+    formData.append("password", userInfo?.password);
+
+    if (userInfo?.avatar) {
+      formData.append("avatar", userInfo?.avatar);
+    }
     // Handle registration logic here
-    console.log(userInfo);
+    try {
+      const res = await registerUser(formData).unwrap();
+      setSuccessMessage(res?.message);
+      setErrorMessage("");
+    } catch (error) {
+      setErrorMessage(error?.data?.message);
+      setSuccessMessage("");
+    }
   };
 
   const handleGoogleSignIn = () => {
-    // Handle Google Sign-In logic here
-    console.log("Signing in with Google...");
+    window.location.href = "http://localhost:8000/api/v2/users/google";
   };
 
   return (
@@ -96,19 +119,48 @@ const Register: React.FC = () => {
               />
             </div>
             <div>
+              <label
+                htmlFor="Avatar"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Avatar
+              </label>
+              <input
+                id="avatar"
+                type="file"
+                placeholder="avatar..."
+                className=""
+                {...register("avatar", { required: false })}
+              />
+            </div>
+            {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
+            {successMessage && (
+              <div
+                className="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+                role="alert"
+              >
+                <span className="block sm:inline">{successMessage}</span>
+              </div>
+            )}
+            <div>
               <Button
+                disabled={registerLoading}
                 htmlType="submit"
                 type="primary"
                 className="w-full py-2 rounded-md text-lg"
               >
-                Sign Up
+                {registerLoading ? "Please wait..." : "Sign Up "}
               </Button>
             </div>
           </form>
           <div className="flex items-center justify-center space-x-2 mt-4">
             <div className="text-gray-500">or</div>
           </div>
-          <GoogleSign onClick={handleGoogleSignIn} className="mt-4" />
+          <GoogleSign
+            disabled={registerLoading}
+            onClick={handleGoogleSignIn}
+            className="mt-4"
+          />
 
           <div className="my-4 text-center">
             Already have an account?{" "}

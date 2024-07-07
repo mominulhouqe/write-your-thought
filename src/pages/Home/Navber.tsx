@@ -4,7 +4,6 @@ import { logout, useUserInfo } from "../../redux/features/auth/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogoutReqMutation } from "../../redux/features/auth/authApi";
 import {
-
   LogoutOutlined,
   MenuFoldOutlined,
   BellOutlined,
@@ -14,21 +13,20 @@ import {
   SettingOutlined,
   DownOutlined,
 } from "@ant-design/icons";
-import { Drawer, Badge, Input, Dropdown, Menu, Switch } from "antd";
-
+import { Drawer, Badge, Input, Dropdown, Switch, MenuProps } from "antd";
 
 interface NavbarProps {
   darkMode: boolean;
   handleThemeChange: () => void;
 }
 
+type MenuItem = Required<MenuProps>["items"][number];
 
-const Navbar: React.FC <NavbarProps> = ({ darkMode, handleThemeChange,  })  => {
+const Navbar: React.FC<NavbarProps> = ({ darkMode, handleThemeChange }) => {
   const userInfo = useAppSelector(useUserInfo);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [drawerVisible, setDrawerVisible] = useState(false);
- 
 
   const [logoutReq] = useLogoutReqMutation();
 
@@ -36,45 +34,51 @@ const Navbar: React.FC <NavbarProps> = ({ darkMode, handleThemeChange,  })  => {
     try {
       await logoutReq({}).unwrap();
       dispatch(logout());
+      navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);
     }
   };
 
-
-
   const showDrawer = () => {
     setDrawerVisible(true);
   };
 
- 
   const onClose = () => {
     setDrawerVisible(false);
   };
 
-
-  const profileMenu = (
-    <Menu>
-      <Menu.Item key="0">
-        <Link to="/user-profile">
+  const items: MenuItem[] = [
+    {
+      key: "0",
+      label: (
+        <Link to="/user-profile" onClick={onClose}>
           <UserOutlined /> Profile
         </Link>
-      </Menu.Item>
-      <Menu.Item key="1">
-        <Link to="/profile-setting">
+      ),
+    },
+    {
+      key: "1",
+      label: (
+        <Link to="/profile-setting" onClick={onClose}>
           <SettingOutlined /> Settings
         </Link>
-      </Menu.Item>
-      <Menu.Divider />
-      <Menu.Item key="3" onClick={handleLogout}>
-        <LogoutOutlined /> Logout
-      </Menu.Item>
-    </Menu>
-  );
+      ),
+    },
+    { type: 'divider' },
+    {
+      key: "3",
+      label: (
+        <div onClick={() => { handleLogout(); onClose(); }}>
+          <LogoutOutlined /> Logout
+        </div>
+      ),
+    },
+  ];
 
   return (
     <div className="sticky top-0 z-30 bg-slate-100 shadow-md w-full">
-      <div  className="flex justify-between items-center px-4 py-2 font-bold">
+      <div className="flex justify-between items-center px-4 py-2 font-bold">
         <Link to="/">
           <h4 className="md:text-4xl text-2xl font-semibold text-blue-500">
             Thoughts
@@ -103,15 +107,18 @@ const Navbar: React.FC <NavbarProps> = ({ darkMode, handleThemeChange,  })  => {
               <Badge count={5}>
                 <BellOutlined className="text-2xl text-gray-700" />
               </Badge>
-              <Dropdown menu={profileMenu} trigger={['click']}>
-                <a onClick={e => e.preventDefault()}>
+              <Dropdown menu={{ items }} trigger={["click"]}>
+                <div
+                  onClick={(e) => e.preventDefault()}
+                  className="flex items-center cursor-pointer"
+                >
                   <img
                     src={userInfo?.avatar?.url || ""}
                     alt="Profile"
                     className="w-10 h-10 rounded-full object-cover border p-0.5 border-blue-500"
                   />
                   <DownOutlined className="ml-2" />
-                </a>
+                </div>
               </Dropdown>
               <Switch
                 checkedChildren="Dark"
@@ -125,7 +132,7 @@ const Navbar: React.FC <NavbarProps> = ({ darkMode, handleThemeChange,  })  => {
               onClick={() => navigate("/login")}
               className="cursor-pointer border px-4 py-2 text-lg font-bold rounded-md shadow-sm bg-blue-500 text-white"
             >
-              Login
+              <p>Login</p>
             </button>
           )}
         </div>
@@ -154,28 +161,28 @@ const Navbar: React.FC <NavbarProps> = ({ darkMode, handleThemeChange,  })  => {
             />
           </li>
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/" onClick={onClose}>Home</Link>
           </li>
           <li>
-            <Link to="/blogs">Blogs</Link>
+            <Link to="/blogs" onClick={onClose}>Blogs</Link>
           </li>
           <li>
-            <Link to="/about">About</Link>
+            <Link to="/about" onClick={onClose}>About</Link>
           </li>
           {userInfo?.email ? (
             <>
-              <li className="cursor-pointer flex items-center space-x-2">
+              <li className="cursor-pointer flex items-center space-x-2" onClick={onClose}>
                 <Badge count={3}>
                   <MessageOutlined className="text-2xl text-gray-700" />
                 </Badge>
               </li>
-              <li className="cursor-pointer flex items-center space-x-2">
+              <li className="cursor-pointer flex items-center space-x-2" onClick={onClose}>
                 <Badge count={5}>
                   <BellOutlined className="text-2xl text-gray-700" />
                 </Badge>
               </li>
               <li className="cursor-pointer flex justify-center items-center space-x-2">
-                <Link to="/user-profile">
+                <Link to="/user-profile" onClick={onClose}>
                   <img
                     src={userInfo?.avatar?.url || ""}
                     alt="Profile"
@@ -183,7 +190,7 @@ const Navbar: React.FC <NavbarProps> = ({ darkMode, handleThemeChange,  })  => {
                   />
                 </Link>
                 <LogoutOutlined
-                  onClick={handleLogout}
+                  onClick={() => { handleLogout(); onClose(); }}
                   className="text-3xl text-red-600 font-bold"
                   title="Logout"
                 />
@@ -199,7 +206,7 @@ const Navbar: React.FC <NavbarProps> = ({ darkMode, handleThemeChange,  })  => {
             </>
           ) : (
             <li
-              onClick={() => navigate("/register")}
+              onClick={() => { navigate("/register"); onClose(); }}
               className="cursor-pointer border px-4 py-2 text-lg font-bold rounded-md shadow-sm bg-blue-500 text-white"
             >
               Register

@@ -36,7 +36,7 @@ const UserProfile: React.FC = () => {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className=" mx-auto bg-white rounded-lg shadow-lg p-3 mt-8 min-h-screen overflow-y-auto"
+      className=" mx-auto bg-white rounded-lg shadow-lg p-3 mt-2 min-h-screen overflow-y-auto"
     >
       <div className="relative flex justify-center items-center">
         <Link to="/user-profile" className="block relative">

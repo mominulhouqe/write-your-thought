@@ -14,6 +14,7 @@ import PostManagement from "../pages/Admin/PostManagement/PostManagement";
 import AdminHomeLayout from "../pages/Admin/AdminHomeLayout";
 import UserManagement from "../pages/Admin/UserManagement/UserManagement";
 import AdminActions from "../pages/Admin/AdminAction/AdminAction";
+import Failure from "../pages/GoogleLoginCallback/Failure/Failure";
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -51,6 +52,10 @@ const routes = createBrowserRouter([
   {
     path: "/login/success",
     element: <GoogleLoginCallback />,
+  },
+  {
+    path: "/login/failure",
+    element: <Failure />,
   },
   {
     path: "/register",
