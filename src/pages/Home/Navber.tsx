@@ -73,14 +73,14 @@ const Navbar: React.FC <NavbarProps> = ({ darkMode, handleThemeChange,  })  => {
   );
 
   return (
-    <div className="sticky top-0 z-50 bg-slate-100 shadow-md">
+    <div className="sticky top-0 z-30 bg-slate-100 shadow-md w-full">
       <div  className="flex justify-between items-center px-4 py-2 font-bold">
         <Link to="/">
           <h4 className="md:text-4xl text-2xl font-semibold text-blue-500">
             Thoughts
           </h4>
         </Link>
-        <div className="hidden md:flex items-center space-x-4">
+        <div className="hidden lg:flex items-center space-x-4">
           <Input
             placeholder="Search..."
             prefix={<SearchOutlined />}
@@ -103,7 +103,7 @@ const Navbar: React.FC <NavbarProps> = ({ darkMode, handleThemeChange,  })  => {
               <Badge count={5}>
                 <BellOutlined className="text-2xl text-gray-700" />
               </Badge>
-              <Dropdown overlay={profileMenu} trigger={['click']}>
+              <Dropdown menu={profileMenu} trigger={['click']}>
                 <a onClick={e => e.preventDefault()}>
                   <img
                     src={userInfo?.avatar?.url || ""}
@@ -132,7 +132,7 @@ const Navbar: React.FC <NavbarProps> = ({ darkMode, handleThemeChange,  })  => {
         <button
           type="button"
           onClick={showDrawer}
-          className="rounded-full cursor-pointer block md:hidden"
+          className="rounded-full cursor-pointer block lg:hidden"
         >
           <MenuFoldOutlined className="text-2xl" />
         </button>

@@ -31,7 +31,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ onLogout }) => {
   );
 
   return (
-    <Dropdown overlay={menu} trigger={["click"]}>
+    <Dropdown menu={menu} trigger={["click"]}>
       <motion.a
         onClick={(e) => e.preventDefault()}
         initial={{ opacity: 0 }}
