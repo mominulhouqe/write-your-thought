@@ -3,8 +3,8 @@ import { Button } from 'antd';
 import { GoogleOutlined } from '@ant-design/icons';
 
 interface GoogleSignInButtonProps {
-  onClick: () => void; // Function to handle Google sign-in logic
-  className?: string; // Optional className for custom styling
+  onClick: () => void;
+  className?: string;
 }
 
 const GoogleSign: React.FC<GoogleSignInButtonProps> = ({ onClick, className }) => {
