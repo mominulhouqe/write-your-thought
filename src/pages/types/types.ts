@@ -30,6 +30,7 @@ export interface PostAdditional {
 }
 
 export interface Post {
+  views: number;
   _id: string;
   post_id: string;
   createdAt: string;
