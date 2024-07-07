@@ -135,6 +135,7 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, handleThemeChange }) => {
               <p>Login</p>
             </button>
           )}
+          
         </div>
         <button
           type="button"
