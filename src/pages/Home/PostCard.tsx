@@ -149,6 +149,7 @@
 // };
 
 // export default PostCard;
+
 import React, { useState } from 'react';
 import { Card, message, Skeleton } from 'antd';
 import { useAddLikeMutation, useGetAllPostsQuery } from '../../redux/features/post/postApi';
