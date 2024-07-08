@@ -93,9 +93,9 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, handleThemeChange }) => {
           <Link to="/">
             <span className="mx-4 hover:text-blue-500">Home</span>
           </Link>
-          <Link to="/blogs">
+          {/* <Link to="/blogs">
             <span className="mx-4 hover:text-blue-500">Blogs</span>
-          </Link>
+          </Link> */}
           <Link to="/about">
             <span className="mx-4 hover:text-blue-500">About</span>
           </Link>
@@ -163,9 +163,6 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, handleThemeChange }) => {
           </li>
           <li>
             <Link to="/" onClick={onClose}>Home</Link>
-          </li>
-          <li>
-            <Link to="/blogs" onClick={onClose}>Blogs</Link>
           </li>
           <li>
             <Link to="/about" onClick={onClose}>About</Link>
