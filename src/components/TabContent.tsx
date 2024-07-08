@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from 'react';
 import { Switch, Button, Card, Row, Col, Statistic } from 'antd';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import EngagementMetrics from '../pages/Admin/EngagementMetrics/EngagementMetrics';
+import Achievements from '../pages/UserProfile/UserOverview/Achievements';
+import FriendsList from '../pages/UserProfile/UserOverview/FriendsList';
 
 const followerGrowthData = [
   { month: 'Jan', followers: 50 },
@@ -25,17 +27,18 @@ interface TabContentProps {
 }
 
 const TabContent: React.FC<TabContentProps> = ({ type, posts, settings }) => {
-  const [isFollowing, setIsFollowing] = useState(false);
+  // const [isFollowing, setIsFollowing] = useState(false);
 
-  const toggleFollow = () => {
-    setIsFollowing(!isFollowing);
-  };
+  // const toggleFollow = () => {
+  //   setIsFollowing(!isFollowing);
+  // };
 
   if (type === 'overview') {
     return (
       <div className="text-center">
-        <h2 className="text-2xl font-semibold text-blue-600">Achievements</h2>
-        <p className="text-gray-700 mt-2">Completed 100+ Projects</p>
+        <FriendsList />
+        <EngagementMetrics />
+        <Achievements />
       </div>
     );
   }
@@ -109,11 +112,11 @@ const TabContent: React.FC<TabContentProps> = ({ type, posts, settings }) => {
             </ResponsiveContainer>
           </Card>
         </motion.div>
-        <div className="text-center mb-4">
+        {/* <div className="text-center mb-4">
           <Button type={isFollowing ? 'danger' : 'primary'} onClick={toggleFollow}>
             {isFollowing ? 'Unfollow' : 'Follow'}
           </Button>
-        </div>
+        </div> */}
       </div>
     );
   }

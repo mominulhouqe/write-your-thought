@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Card } from 'antd';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { motion } from 'framer-motion';
@@ -17,7 +17,7 @@ const EngagementMetrics = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
         >
-            <Card title="Engagement Metrics" className="shadow-lg">
+            <Card title="Engagement Metrics" className="shadow-sm mb-4">
                 <ResponsiveContainer width="100%" height={400}>
                     <BarChart
                         data={engagementMetricsData}
