@@ -16,6 +16,7 @@ import UserManagement from "../pages/Admin/UserManagement/UserManagement";
 import AdminActions from "../pages/Admin/AdminAction/AdminAction";
 import Failure from "../pages/GoogleLoginCallback/Failure/Failure";
 import About from "../pages/Home/About/About";
+import ProtectedRoute from "./ProtectedRoute";
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -68,25 +69,29 @@ const routes = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <AdminHome />,
-    children:[
+    element: (
+      <ProtectedRoute role="admin">
+        <AdminHome />
+      </ProtectedRoute>
+    ),
+    children: [
       {
-        index:true,
-        element:<AdminHomeLayout />
+        index: true,
+        element: <AdminHomeLayout />,
       },
       {
-        path:"all-posts",
-        element:<PostManagement />
+        path: "all-posts",
+        element: <PostManagement />,
       },
       {
-        path:"all-users",
-        element:<UserManagement />
+        path: "all-users",
+        element: <UserManagement />,
       },
       {
-        path:"activitis",
-        element:<AdminActions />
+        path: "activitis",
+        element: <AdminActions />,
       },
-    ]
+    ],
   },
 ]);
 export default routes;
