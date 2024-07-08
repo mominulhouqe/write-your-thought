@@ -5,9 +5,17 @@ import { useUserInfo } from "../../redux/features/auth/authSlice";
 import { motion } from "framer-motion";
 import { UserInfo } from "../types/types"; // Adjust the import path as necessary
 import LoginPrompt from "../../components/LoginPromt";
+import { useGetAllPostsByUserIdQuery } from "../../redux/features/post/postApi";
 
 const UserProfile: React.FC = () => {
   const userInfo = useAppSelector(useUserInfo) as unknown as UserInfo;
+
+  const { data, isLoading } = useGetAllPostsByUserIdQuery(
+    {
+      userId: userInfo?.user_id,
+    },
+    { skip: !userInfo?.user_id }
+  );
 
   const containerVariants = {
     hidden: { opacity: 0, y: -20 },
@@ -56,7 +64,11 @@ const UserProfile: React.FC = () => {
             </motion.div>
           )}
         </Link>
-        <Link to="/user-profile" className="absolute top-4 right-4" title="Edit profile">
+        <Link
+          to="/user-profile"
+          className="absolute top-4 right-4"
+          title="Edit profile"
+        >
           <motion.button
             className="bg-blue-500 text-white p-2 rounded-full shadow-md hover:bg-blue-600 transition"
             variants={itemVariants}
@@ -93,7 +105,7 @@ const UserProfile: React.FC = () => {
         <div className="p-4 bg-gray-50 rounded-lg shadow-inner">
           <p className="text-sm text-gray-700">
             <span className="font-medium">Total Posts:</span>{" "}
-            {userInfo?.postsCount || "No posts available"}
+            {data?.data_found || "No posts available"}
           </p>
         </div>
         <div className="p-4 bg-gray-50 rounded-lg shadow-inner">
