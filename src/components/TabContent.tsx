@@ -45,6 +45,7 @@ console.log(posts);
         <Achievements />
       </div>
     );
+    
   }
 
   if (type === 'posts') {
