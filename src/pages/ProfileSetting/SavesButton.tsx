@@ -1,3 +1,4 @@
+import { Button } from 'antd';
 import React from 'react';
 
 interface ButtonProps {
@@ -6,9 +7,9 @@ interface ButtonProps {
 
 const SaveButton: React.FC<ButtonProps> = ({ text }) => {
   return (
-    <button className="px-2 py-1.5 text-xs font-medium bg-gradient-to-r from-gray-800 to-gray-700 text-white uppercase border rounded-lg hover:shadow-lg transition duration-300">
+    <Button type='primary'>
       {text}
-    </button>
+    </Button>
   );
 };
 
