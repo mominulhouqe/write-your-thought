@@ -11,7 +11,7 @@ interface SettingsTabsProps {
   onChange: (key: string) => void;
 }
 
-const SettingsTabs: React.FC<SettingsTabsProps> = ({ isDarkMode, settings, posts, onChange }) => {
+const SettingsTabs: React.FC<SettingsTabsProps> = ({settings, posts, onChange }) => {
   const tabItems: TabsProps['items'] = [
     {
       key: '1',
@@ -26,7 +26,7 @@ const SettingsTabs: React.FC<SettingsTabsProps> = ({ isDarkMode, settings, posts
     {
       key: '3',
       label: "Settings",
-      children: <TabContent type="settings" isDarkMode={isDarkMode} settings={settings} />,
+      children: <TabContent type="settings" settings={settings} />,
     },
   ];
 
