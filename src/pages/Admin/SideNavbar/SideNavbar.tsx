@@ -5,6 +5,8 @@ import {
   MenuOutlined,
   UserAddOutlined,
   HistoryOutlined,
+  HomeFilled ,
+  BackwardFilled
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Button, Menu, Drawer } from "antd";
@@ -16,6 +18,16 @@ import { useUserInfo } from "../../../redux/features/auth/authSlice";
 type MenuItem = Required<MenuProps>["items"][number];
 
 const items: MenuItem[] = [
+  {
+    key: "back",
+   icon:<BackwardFilled></BackwardFilled>,
+    label: <NavLink to="/" >Back to Main</NavLink>,
+  },
+  {
+    key: "Home1",
+    icon:<HomeFilled />,
+    label: <NavLink to="/admin">Home</NavLink>,
+  },
   {
     key: "sub1",
     label: "Posts Management",

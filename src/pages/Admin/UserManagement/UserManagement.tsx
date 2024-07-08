@@ -1,12 +1,16 @@
 import React from "react";
 import { Button, Card, List, Popconfirm } from "antd";
 import { UserAddOutlined, UserDeleteOutlined } from "@ant-design/icons";
+import { useGetAllUsersQuery } from "../../../redux/features/user/userApi";
 
 const UserManagement: React.FC = () => {
-  const users = [
-    { id: "1", name: "User 1" },
-    { id: "2", name: "User 2" },
-  ];
+  // todo make search value page value and limit value dynamic
+  //for pagination use page value and limit value
+  const { data } = useGetAllUsersQuery({
+    searchValue: "",
+    pageValue: "",
+    limitValue: "",
+  });
 
   const handleDeleteUser = (userId: string) => {
     console.log("User deleted:", userId);
@@ -19,19 +23,21 @@ const UserManagement: React.FC = () => {
   return (
     <Card title="Users Management" className="shadow-lg">
       <List
-        dataSource={users}
+        dataSource={data?.data}
         renderItem={(item) => (
           <List.Item
             actions={[
-              <Button
-                icon={<UserAddOutlined />}
-                onClick={() => handleMakeAdmin(item.id)}
-              >
-                Make Admin
-              </Button>,
+              item?.role !== "admin" && (
+                <Button
+                  icon={<UserAddOutlined />}
+                  onClick={() => handleMakeAdmin(item?.user_id)}
+                >
+                  Make Admin
+                </Button>
+              ),
               <Popconfirm
                 title="Are you sure to delete this user?"
-                onConfirm={() => handleDeleteUser(item.id)}
+                onConfirm={() => handleDeleteUser(item?.user_id)}
               >
                 <Button icon={<UserDeleteOutlined />} danger>
                   Delete
@@ -39,10 +45,7 @@ const UserManagement: React.FC = () => {
               </Popconfirm>,
             ]}
           >
-            <List.Item.Meta
-              title={`User ID: ${item.id}`}
-              description={item.name}
-            />
+            <List.Item.Meta title={`${item?.email}`} description={item?.name} />
           </List.Item>
         )}
       />

@@ -36,7 +36,7 @@ const UserProfileView: React.FC = () => {
 
   return (
    <div className=" ">
-     <div className="max-w-3xl w-full mx-auto mt-8 p-4 border rounded-lg  bg-white">
+     <div className="max-w-3xl w-full mx-auto mt-2 p-4 border rounded-lg  bg-white">
       <ProfileHeader userInfo={userInfo}/>
       <div className="mt-8 flex flex-col items-center">
         <div className="text-center border-b my-2">
