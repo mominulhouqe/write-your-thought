@@ -9,6 +9,7 @@ import EngagementMetrics from '../pages/Admin/EngagementMetrics/EngagementMetric
 import Achievements from '../pages/UserProfile/UserOverview/Achievements';
 import FriendsList from '../pages/UserProfile/UserOverview/FriendsList';
 
+
 const followerGrowthData = [
   { month: 'Jan', followers: 50 },
   { month: 'Feb', followers: 80 },
@@ -27,6 +28,9 @@ interface TabContentProps {
 }
 
 const TabContent: React.FC<TabContentProps> = ({ type, posts, settings }) => {
+
+console.log(posts);
+
   // const [isFollowing, setIsFollowing] = useState(false);
 
   // const toggleFollow = () => {
