@@ -1,3 +1,4 @@
+
 import { baseApi } from "../api/baseApi";
 
 const userApi = baseApi.injectEndpoints({
@@ -7,7 +8,7 @@ const userApi = baseApi.injectEndpoints({
         url: `/users/find-current-user`,
         method: "POST",
       }),
-      providesTags: ["User"],
+      providesTags:<any> ["User"],
     }),
     fetchLoginSuccess: builder.query({
       query: () => ({
@@ -46,11 +47,11 @@ const userApi = baseApi.injectEndpoints({
   }),
 });
 
-export const {
-  useFetchCurrentUserMutation,
-  useFetchLoginSuccessQuery,
-  useFetchLoginFailureQuery,
-  useGetAllUsersQuery,
+export const { 
+  useFetchCurrentUserMutation, 
+  useFetchLoginSuccessQuery, 
+  useFetchLoginFailureQuery, 
+  useGetAllUsersQuery 
 } = userApi;
 
 /* 

@@ -80,10 +80,16 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({
       }
     }
   };
+  const isLoading =
+    hideCommentLoading ||
+    deleteCommentLoading ||
+    commentAddLoading ||
+    commentLoading;
 
-  if (commentAddLoading) {
-    return <Loading className="mt-12 h-screen"></Loading>;
+  if (isLoading) {
+    return <Loading className="mt-12 h-screen" />;
   }
+
   return (
     <div>
       <div className="flex justify-center items-start mt-2">

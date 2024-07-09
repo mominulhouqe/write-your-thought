@@ -1,7 +1,7 @@
 import React from "react";
-import { Menu, Dropdown } from "antd";
+import {  Dropdown, MenuProps } from "antd";
 import { UserOutlined, SettingOutlined, LogoutOutlined, DownOutlined } from "@ant-design/icons";
-import {  Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 interface ProfileDropdownProps {
@@ -9,29 +9,38 @@ interface ProfileDropdownProps {
 }
 
 const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ onLogout }) => {
-  // const navigate = useNavigate();
-
-  const menu = (
-    <Menu>
-      <Menu.Item key="0">
+  const items: MenuProps['items'] = [
+    {
+      key: '0',
+      label: (
         <Link to="/user-profile">
           <UserOutlined /> Profile
         </Link>
-      </Menu.Item>
-      <Menu.Item key="1">
+      ),
+    },
+    {
+      key: '1',
+      label: (
         <Link to="/settings">
           <SettingOutlined /> Settings
         </Link>
-      </Menu.Item>
-      <Menu.Divider />
-      <Menu.Item key="3" onClick={onLogout}>
-        <LogoutOutlined /> Logout
-      </Menu.Item>
-    </Menu>
-  );
+      ),
+    },
+    {
+      type: 'divider',
+    },
+    {
+      key: '3',
+      label: (
+        <div onClick={onLogout}>
+          <LogoutOutlined /> Logout
+        </div>
+      ),
+    },
+  ];
 
   return (
-    <Dropdown menu={menu} trigger={["click"]}>
+    <Dropdown menu={{ items }} trigger={['click']}>
       <motion.a
         onClick={(e) => e.preventDefault()}
         initial={{ opacity: 0 }}
