@@ -9,15 +9,15 @@ import { Button } from "antd";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useGetAllPostsByUserIdQuery } from "../../redux/features/post/postApi";
+import Loading from "../../components/Loading";
 
 const UserProfileView: React.FC = () => {
   const userInfo = useAppSelector(useUserInfo);
-  const [posts, setPosts] = useState<any[]>([]);
   const [settings, setSettings] = useState<any>({});
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
   // todo can pass limit, page and search value for filtering
-  const { data, isLoading } = useGetAllPostsByUserIdQuery(
+  const { data,isLoading } = useGetAllPostsByUserIdQuery(
     {
       userId: userInfo?.user_id,
       // searchValue: ,
@@ -40,6 +40,9 @@ const UserProfileView: React.FC = () => {
     console.log("Selected Tab:", key);
   };
 
+  if(isLoading){
+    return <Loading />
+  }
   return (
     <div className=" ">
       <div className="max-w-3xl w-full mx-auto mt-2 p-4 border rounded-lg  bg-white">
