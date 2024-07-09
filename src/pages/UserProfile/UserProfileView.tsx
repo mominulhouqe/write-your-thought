@@ -7,8 +7,8 @@ import { useUserInfo } from "../../redux/features/auth/authSlice";
 import SettingsTabs from "../../components/SettingsTabs";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
-import { useGetAllPostsQuery } from "../../redux/features/post/postApi";
 import { motion } from "framer-motion";
+import { useGetAllPostsByUserIdQuery } from "../../redux/features/post/postApi";
 
 const UserProfileView: React.FC = () => {
   const userInfo = useAppSelector(useUserInfo);
@@ -16,25 +16,23 @@ const UserProfileView: React.FC = () => {
   const [settings, setSettings] = useState<any>({});
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
-  const { data } = useGetAllPostsQuery({});
-
+  // todo can pass limit, page and search value for filtering
+  const { data, isLoading } = useGetAllPostsByUserIdQuery(
+    {
+      userId: userInfo?.user_id,
+      // searchValue: ,
+      // pageValue: ,
+      // limitValue: ,
+    },
+    { skip: !userInfo?.user_id }
+  );
+  
   useEffect(() => {
-    const loadPosts = async () => {
-      // Simulate fetching posts
-
-      const ownPosts = data?.data?.filter(
-        (post: any) => post?.createdBy === userInfo?.user_id
-      );
-      setPosts(ownPosts);
-    };
-
     const loadSettings = async () => {
       // Simulate fetching settings
       setSettings({ theme: "dark", notifications: true });
       setIsDarkMode(true);
     };
-
-    loadPosts();
     loadSettings();
   }, [data?.data, userInfo]);
 
@@ -73,6 +71,7 @@ const UserProfileView: React.FC = () => {
             </div>
           </div>
         </motion.div>
+       
         <div className="mt-8 flex flex-col items-center">
           <div className="text-center border-b my-2">
             <h1 className="text-3xl font-bold">{userInfo?.name}</h1>
@@ -86,7 +85,7 @@ const UserProfileView: React.FC = () => {
           <SettingsTabs
             isDarkMode={isDarkMode}
             settings={settings}
-            posts={posts}
+            posts={data?.data}
             onChange={handleTabChange}
           />
         </div>
