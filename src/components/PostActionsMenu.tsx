@@ -40,7 +40,7 @@ const PostActionsMenu: React.FC<PostActionsMenuProps> = ({ post }) => {
 
   const handleCopy = () => {
     navigator.clipboard
-      .writeText(`http://localhost:5173/post-view/${postId}`)
+      .writeText(`https://thoughts-app-v1.web.app/post-view/${postId}`)
       .then(() => {
         message.success('Post link copied');
       })
