@@ -46,7 +46,7 @@ const Register: React.FC = () => {
       setSuccessMessage(res?.message);
       setErrorMessage("");
     } catch (error) {
-      setErrorMessage(error?.data?.message);
+      setErrorMessage((error as any)?.data?.message);
       setSuccessMessage("");
     }
   };
@@ -157,7 +157,7 @@ const Register: React.FC = () => {
             <div className="text-gray-500">or</div>
           </div>
           <GoogleSign
-            disabled={registerLoading}
+            disabled ={registerLoading}
             onClick={handleGoogleSignIn}
             className="mt-4"
           />

@@ -25,7 +25,7 @@ interface LoginFormInputs {
 
 const Login: React.FC = () => {
   const { register, handleSubmit } = useForm<LoginFormInputs>();
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<any>("");
   const [hideGoogle, setHideGoogle] = useState<boolean>(false);
   const location = useLocation();
 
@@ -58,9 +58,9 @@ const Login: React.FC = () => {
         navigate("/");
       } catch (error) {
         dispatch(logout());
-        setErrorMessage(error?.data?.message);
+        setErrorMessage((error as any)?.data?.message);
       }
-    } catch (error) {
+    } catch (error:any) {
       setErrorMessage(error?.data?.message || error?.message);
     }
   };

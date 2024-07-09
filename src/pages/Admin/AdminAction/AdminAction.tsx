@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Card, List } from 'antd';
 import { motion } from 'framer-motion';
 

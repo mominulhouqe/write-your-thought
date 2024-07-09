@@ -2,13 +2,14 @@ import React from "react";
 import { Button } from "antd";
 import { GoogleOutlined } from "@ant-design/icons";
 
-interface GoogleSignInButtonProps {
-  onClick: () => void;
-  className?: string;
-  title: string;
-}
+// interface GoogleSignInButtonProps {
+//   onClick: () => void;
+//   className?: string;
+//   title: string;
+//   disable:boolean;
+// }
 
-const GoogleSign: React.FC<GoogleSignInButtonProps> = ({
+const GoogleSign: React.FC<any>= ({
   onClick,
   className,
 }) => {

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Card } from 'antd';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -24,7 +24,7 @@ const PostStatistics = () => {
                         fill="#8884d8"
                         dataKey="value"
                     >
-                        {postStatsData.map((entry, index) => (
+                        {postStatsData.map((_entry, index) => (
                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                     </Pie>
