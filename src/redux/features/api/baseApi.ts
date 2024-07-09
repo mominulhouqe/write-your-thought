@@ -58,7 +58,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
   return result;
 };
 
-export const baseApi = createApi({
+export const baseApi:any = createApi({
   reducerPath: "baseApi",
   baseQuery: baseQueryWithRefreshToken,
   tagTypes: ["User", "Post", "LikeComment"],

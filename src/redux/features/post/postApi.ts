@@ -1,15 +1,35 @@
 import { baseApi } from "../api/baseApi";
 
+// Define types for the query parameters and body data
+interface GetAllPostsParams {
+  searchValue?: string;
+  pageValue?: number;
+  limitValue?: number;
+}
+
+interface GetAllPostsByUserIdParams extends GetAllPostsParams {
+  userId: string;
+}
+
+interface AddLikeParams {
+  postId: string;
+  [key: string]: any; // Add specific fields if known
+}
+
+interface PostIdParam {
+  postId: string;
+}
+
 const postApi = baseApi.injectEndpoints({
-  endpoints: (builder) => ({
+  endpoints: (builder :any) => ({
     getAllPosts: builder.query({
-      query: ({ searchValue, pageValue, limitValue }) => {
+      query: ({ searchValue, pageValue, limitValue }: GetAllPostsParams) => {
         let url = "/posts/get-all";
         const params = new URLSearchParams();
 
         if (searchValue) params.append("search", searchValue);
-        if (pageValue) params.append("page", pageValue);
-        if (limitValue) params.append("limit", limitValue);
+        if (pageValue) params.append("page", pageValue.toString());
+        if (limitValue) params.append("limit", limitValue.toString());
 
         if (params.toString()) {
           url += `?${params.toString()}`;
@@ -23,13 +43,13 @@ const postApi = baseApi.injectEndpoints({
       providesTags: ["Post"],
     }),
     getAllPostsByUserId: builder.query({
-      query: ({ userId, searchValue, pageValue, limitValue }) => {
+      query: ({ userId, searchValue, pageValue, limitValue }: GetAllPostsByUserIdParams) => {
         let url = `/posts/get-posts/${userId}`;
         const params = new URLSearchParams();
 
         if (searchValue) params.append("search", searchValue);
-        if (pageValue) params.append("page", pageValue);
-        if (limitValue) params.append("limit", limitValue);
+        if (pageValue) params.append("page", pageValue.toString());
+        if (limitValue) params.append("limit", limitValue.toString());
 
         if (params.toString()) {
           url += `?${params.toString()}`;
@@ -43,14 +63,14 @@ const postApi = baseApi.injectEndpoints({
       providesTags: ["Post"],
     }),
     getSinglePostById: builder.query({
-      query: ({ postId = "" }) => ({
+      query: ({ postId }: PostIdParam) => ({
         url: `/posts/get-single/${postId}`,
         method: "GET",
       }),
       providesTags: ["Post"],
     }),
     addPost: builder.mutation({
-      query: (data) => ({
+      query: (data: any) => ({
         url: "/posts/create-post",
         method: "POST",
         body: data,
@@ -58,7 +78,7 @@ const postApi = baseApi.injectEndpoints({
       invalidatesTags: ["Post"],
     }),
     addLike: builder.mutation({
-      query: ({ postId, ...data }) => ({
+      query: ({ postId, ...data }: AddLikeParams) => ({
         url: `/posts/edit/add-like/${postId}`,
         method: "PATCH",
         body: data,
@@ -66,7 +86,7 @@ const postApi = baseApi.injectEndpoints({
       invalidatesTags: ["Post"],
     }),
     deletePost: builder.mutation({
-      query: (postId) => ({
+      query: ({ postId }: PostIdParam) => ({
         url: `/posts/delete/${postId}`,
         method: "DELETE",
       }),
@@ -83,6 +103,7 @@ export const {
   useDeletePostMutation,
   useGetAllPostsByUserIdQuery,
 } = postApi;
+
 
 // import { baseApi } from "../api/baseApi";
 
