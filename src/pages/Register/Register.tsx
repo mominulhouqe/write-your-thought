@@ -52,7 +52,7 @@ const Register: React.FC = () => {
   };
 
   const handleGoogleSignIn = () => {
-    window.location.href = "http://localhost:8000/api/v2/users/google";
+    window.location.href = ".https://mominul-backend.vercel.app/api/v2/users/google";
   };
 
   return (
