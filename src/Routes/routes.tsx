@@ -17,6 +17,8 @@ import AdminActions from "../pages/Admin/AdminAction/AdminAction";
 import Failure from "../pages/GoogleLoginCallback/Failure/Failure";
 import About from "../pages/Home/About/About";
 import ProtectedRoute from "./ProtectedRoute";
+import PrivacyPolicy from "../components/PrivacyPolicy";
+import TermsAndConditions from "../components/TermsAndConditions";
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -34,6 +36,14 @@ const routes = createBrowserRouter([
       {
         path: "about",
         element: <About />,
+      },
+      {
+path:"privacy-policy",
+element:<PrivacyPolicy />,
+      },
+      {
+path:"terms-and-conditions",
+element:<TermsAndConditions />,
       },
       {
         path: "user-profile",
