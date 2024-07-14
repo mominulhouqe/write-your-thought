@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from "react";
-import ProfileHeader from "./ProfileHeader";
+// import ProfileHeader from "./ProfileHeader";
+import { motion } from "framer-motion";
+import { UserAddOutlined } from "@ant-design/icons";
 
 import { useAppSelector } from "../../hooks/hooks";
 import { useUserInfo } from "../../redux/features/auth/authSlice";
@@ -11,12 +13,11 @@ import { useGetAllPostsByUserIdQuery } from "../../redux/features/post/postApi";
 
 const UserProfileView: React.FC = () => {
   const userInfo = useAppSelector(useUserInfo);
-  const [posts, setPosts] = useState<any[]>([]);
   const [settings, setSettings] = useState<any>({});
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
   // todo can pass limit, page and search value for filtering
-  const { data, isLoading } = useGetAllPostsByUserIdQuery(
+  const { data } = useGetAllPostsByUserIdQuery(
     {
       userId: userInfo?.user_id,
       // searchValue: ,
@@ -42,7 +43,39 @@ const UserProfileView: React.FC = () => {
   return (
     <div className=" ">
       <div className="max-w-3xl w-full mx-auto mt-2 p-4 border rounded-lg  bg-white">
-        <ProfileHeader userInfo={userInfo} />
+        {/* <ProfileHeader userInfo={userInfo} /> */}
+        <motion.div
+          className={`relative w-full h-64 bg-gradient-to-r from-blue-500 to-teal-500 rounded-lg overflow-hidden ${
+            isDarkMode ? "bg-gray-800" : "bg-white"
+          }`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+        >
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="bg-white p-4 rounded-full shadow-lg">
+              <Link to="/user-profile">
+                {userInfo?.avatar?.url ? (
+                  <motion.img
+                    src={userInfo.avatar.url}
+                    alt="Profile"
+                    className={`rounded-full w-44 border-2 ${
+                      isDarkMode ? "border-blue-300" : "border-blue-500"
+                    } shadow-md mx-auto`}
+                  />
+                ) : (
+                  <motion.div
+                    className={`rounded-full object-cover border-2 ${
+                      isDarkMode ? "border-blue-300" : "border-blue-500"
+                    } shadow-md w-20 h-20 flex items-center justify-center`}
+                  >
+                    <UserAddOutlined className="text-2xl" />
+                  </motion.div>
+                )}
+              </Link>
+            </div>
+          </div>
+        </motion.div>
         <div className="mt-8 flex flex-col items-center">
           <div className="text-center border-b my-2">
             <h1 className="text-3xl font-bold">{userInfo?.name}</h1>

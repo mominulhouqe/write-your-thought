@@ -1,7 +1,8 @@
-import React from "react";
+
 import { Button, Card, List, Popconfirm } from "antd";
 import { UserAddOutlined, UserDeleteOutlined } from "@ant-design/icons";
 import { useGetAllUsersQuery } from "../../../redux/features/user/userApi";
+import { UserInfo } from "../../types/types";
 
 const UserManagement: React.FC = () => {
   // todo make search value page value and limit value dynamic
@@ -24,7 +25,7 @@ const UserManagement: React.FC = () => {
     <Card title="Users Management" className="shadow-lg">
       <List
         dataSource={data?.data}
-        renderItem={(item) => (
+        renderItem={(item:UserInfo) => (
           <List.Item
             actions={[
               item?.role !== "admin" && (

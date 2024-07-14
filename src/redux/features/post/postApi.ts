@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { baseApi } from "../api/baseApi";
 
 const postApi = baseApi.injectEndpoints({
-  endpoints: (builder) => ({
+  endpoints: (builder: any) => ({
     getAllPosts: builder.query({
-      query: ({ searchValue, pageValue, limitValue }) => {
+      query: ({ searchValue, pageValue, limitValue }: any) => {
         let url = "/posts/get-all";
         const params = new URLSearchParams();
 
@@ -23,7 +24,7 @@ const postApi = baseApi.injectEndpoints({
       providesTags: ["Post"],
     }),
     getAllPostsByUserId: builder.query({
-      query: ({ userId, searchValue, pageValue, limitValue }) => {
+      query: ({ userId, searchValue, pageValue, limitValue }:any) => {
         let url = `/posts/get-posts/${userId}`;
         const params = new URLSearchParams();
 
@@ -50,7 +51,7 @@ const postApi = baseApi.injectEndpoints({
       providesTags: ["Post"],
     }),
     addPost: builder.mutation({
-      query: (data) => ({
+      query: (data:any) => ({
         url: "/posts/create-post",
         method: "POST",
         body: data,
@@ -58,7 +59,7 @@ const postApi = baseApi.injectEndpoints({
       invalidatesTags: ["Post"],
     }),
     addLike: builder.mutation({
-      query: ({ postId, ...data }) => ({
+      query: ({ postId, ...data }:any) => ({
         url: `/posts/edit/add-like/${postId}`,
         method: "PATCH",
         body: data,
@@ -66,7 +67,7 @@ const postApi = baseApi.injectEndpoints({
       invalidatesTags: ["Post"],
     }),
     deletePost: builder.mutation({
-      query: (postId) => ({
+      query: (postId:string) => ({
         url: `/posts/delete/${postId}`,
         method: "DELETE",
       }),

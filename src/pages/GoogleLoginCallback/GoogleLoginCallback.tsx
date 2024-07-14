@@ -17,6 +17,8 @@ const GoogleLoginCallback = () => {
   const { data: loginInfo, isLoading: LoginInfoLoading } =
     useFetchLoginSuccessQuery({});
 
+  console.log(loginInfo, "from login info");
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [fetchCurrentUser, { isLoading: fetchCurrentUserLoading }] =
@@ -35,6 +37,7 @@ const GoogleLoginCallback = () => {
       dispatch(setUser(user));
       try {
         const userInfoRes = await fetchCurrentUser({}).unwrap();
+        console.log(userInfoRes, "from function");
         dispatch(setUserInfo(userInfoRes?.data));
         navigate("/");
       } catch (error) {

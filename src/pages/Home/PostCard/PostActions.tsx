@@ -1,4 +1,3 @@
-import React from 'react';
 
 import { LikeOutlined, LikeFilled, CommentOutlined,EyeFilled  } from '@ant-design/icons';
 

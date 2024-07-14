@@ -81,7 +81,14 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({
     }
   };
 
-  if (commentAddLoading) {
+  const isLoading =
+    commentLoading ||
+    deleteCommentLoading ||
+    deleteCommentLoading ||
+    hideCommentLoading ||
+    commentAddLoading;
+
+  if (isLoading) {
     return <Loading className="mt-12 h-screen"></Loading>;
   }
   return (
