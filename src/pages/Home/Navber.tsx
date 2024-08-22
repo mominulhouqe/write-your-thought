@@ -40,9 +40,11 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, handleThemeChange }) => {
 
   const handleLogout = async () => {
     try {
-      await logoutReq({}).unwrap();
-      dispatch(logout());
-      navigate("/login");
+      const res = await logoutReq({}).unwrap();
+      if (res) {
+        dispatch(logout());
+        navigate("/login");
+      }
     } catch (error) {
       console.error("Logout failed:", error);
     }
