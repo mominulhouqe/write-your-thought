@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
 import { Button } from "antd";
 import { useForm } from "react-hook-form";
@@ -17,6 +18,7 @@ import {
 } from "../../redux/features/auth/authSlice";
 import { useFetchCurrentUserMutation } from "../../redux/features/user/userApi";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
+import { baseUrl } from "../../redux/features/api/baseApi";
 
 interface LoginFormInputs {
   email: string;
@@ -56,7 +58,7 @@ const Login: React.FC = () => {
         const userInfoRes = await fetchCurrentUser({}).unwrap();
         dispatch(setUserInfo(userInfoRes?.data));
         navigate("/");
-      } catch (error) {
+      } catch (error: any) {
         dispatch(logout());
         setErrorMessage((error as any)?.data?.message);
       }
@@ -66,7 +68,7 @@ const Login: React.FC = () => {
   };
 
   const handleGoogleSignIn = () => {
-    window.location.href = "https://mominul-backend.vercel.app/api/v2/users/google";
+    window.location.href = `${baseUrl}/users/google`;
   };
 
   useEffect(() => {

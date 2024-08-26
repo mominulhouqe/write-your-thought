@@ -17,13 +17,16 @@ const GoogleLoginCallback = () => {
   const { data: loginInfo, isLoading: LoginInfoLoading } =
     useFetchLoginSuccessQuery({});
 
+  // console.log(loginInfo, "from login info");
+  // console.log(LoginInfoLoading, "from login loading");
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [fetchCurrentUser, { isLoading: fetchCurrentUserLoading }] =
     useFetchCurrentUserMutation();
 
   const mainTainUser = async () => {
-    if (loginInfo?.data?.user_id) {
+    if (loginInfo?.data?.user_id && !LoginInfoLoading) {
       const token = loginInfo?.accessToken;
       const decoded = jwtDecode(token);
 
@@ -35,6 +38,7 @@ const GoogleLoginCallback = () => {
       dispatch(setUser(user));
       try {
         const userInfoRes = await fetchCurrentUser({}).unwrap();
+
         dispatch(setUserInfo(userInfoRes?.data));
         navigate("/");
       } catch (error) {
@@ -46,7 +50,7 @@ const GoogleLoginCallback = () => {
 
   useEffect(() => {
     mainTainUser();
-  }, [loginInfo?.data?.user_id]);
+  }, [loginInfo && !LoginInfoLoading]);
 
   if (LoginInfoLoading || fetchCurrentUserLoading) {
     return <div>Loading...</div>;

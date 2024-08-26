@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from "react";
+// import ProfileHeader from "./ProfileHeader";
+import { motion } from "framer-motion";
 import { UserAddOutlined } from "@ant-design/icons";
 
 import { useAppSelector } from "../../hooks/hooks";
@@ -7,7 +9,6 @@ import { useUserInfo } from "../../redux/features/auth/authSlice";
 import SettingsTabs from "../../components/SettingsTabs";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import { useGetAllPostsByUserIdQuery } from "../../redux/features/post/postApi";
 import Loading from "../../components/Loading";
 
@@ -46,6 +47,7 @@ const UserProfileView: React.FC = () => {
   return (
     <div className=" ">
       <div className="max-w-3xl w-full mx-auto mt-2 p-4 border rounded-lg  bg-white">
+        {/* <ProfileHeader userInfo={userInfo} /> */}
         <motion.div
           className={`relative w-full h-64 bg-gradient-to-r from-blue-500 to-teal-500 rounded-lg overflow-hidden ${
             isDarkMode ? "bg-gray-800" : "bg-white"
@@ -61,11 +63,15 @@ const UserProfileView: React.FC = () => {
                   <motion.img
                     src={userInfo.avatar.url}
                     alt="Profile"
-                    className={`rounded-full w-44 border-2  shadow-md mx-auto`}
+                    className={`rounded-full w-44 border-2 ${
+                      isDarkMode ? "border-blue-300" : "border-blue-500"
+                    } shadow-md mx-auto`}
                   />
                 ) : (
                   <motion.div
-                    className={`rounded-full object-cover border-2 shadow-md w-20 h-20 flex items-center justify-center`}
+                    className={`rounded-full object-cover border-2 ${
+                      isDarkMode ? "border-blue-300" : "border-blue-500"
+                    } shadow-md w-20 h-20 flex items-center justify-center`}
                   >
                     <UserAddOutlined className="text-2xl" />
                   </motion.div>
@@ -74,7 +80,6 @@ const UserProfileView: React.FC = () => {
             </div>
           </div>
         </motion.div>
-       
         <div className="mt-8 flex flex-col items-center">
           <div className="text-center border-b my-2">
             <h1 className="text-3xl font-bold">{userInfo?.name}</h1>

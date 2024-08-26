@@ -1,9 +1,9 @@
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { baseApi } from "../api/baseApi";
 
 
 const userApi = baseApi.injectEndpoints({
-  endpoints: (builder:any) => ({
+  endpoints: (builder: any) => ({
     fetchCurrentUser: builder.mutation({
       query: () => ({
         url: `/users/find-current-user`,
@@ -26,7 +26,7 @@ const userApi = baseApi.injectEndpoints({
       providesTags: ["User"],
     }),
     getAllUsers: builder.query({
-      query: ({ searchValue, pageValue, limitValue }:any) => {
+      query: ({ searchValue, pageValue, limitValue }: any) => {
         let url = "/users/get-all";
         const params = new URLSearchParams();
 

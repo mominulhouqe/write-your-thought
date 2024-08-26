@@ -13,7 +13,15 @@ import {
   SettingOutlined,
   DownOutlined,
 } from "@ant-design/icons";
-import { Drawer, Badge, Input, Dropdown, Switch, MenuProps } from "antd";
+import {
+  Drawer,
+  Badge,
+  Input,
+  Dropdown,
+  Switch,
+  MenuProps,
+  Button,
+} from "antd";
 
 interface NavbarProps {
   darkMode: boolean;
@@ -32,9 +40,11 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, handleThemeChange }) => {
 
   const handleLogout = async () => {
     try {
-      await logoutReq({}).unwrap();
-      dispatch(logout());
-      navigate("/login");
+      const res = await logoutReq({}).unwrap();
+      if (res) {
+        dispatch(logout());
+        navigate("/login");
+      }
     } catch (error) {
       console.error("Logout failed:", error);
     }
@@ -65,11 +75,16 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, handleThemeChange }) => {
         </Link>
       ),
     },
-    { type: 'divider' },
+    { type: "divider" },
     {
       key: "3",
       label: (
-        <div onClick={() => { handleLogout(); onClose(); }}>
+        <div
+          onClick={() => {
+            handleLogout();
+            onClose();
+          }}
+        >
           <LogoutOutlined /> Logout
         </div>
       ),
@@ -135,15 +150,14 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, handleThemeChange }) => {
               <p>Login</p>
             </button>
           )}
-          
         </div>
-        <button
-          type="button"
+        <Button
+          type="primary"
           onClick={showDrawer}
           className="rounded-full cursor-pointer block lg:hidden"
         >
           <MenuFoldOutlined className="text-2xl" />
-        </button>
+        </Button>
       </div>
 
       <Drawer
@@ -162,19 +176,29 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, handleThemeChange }) => {
             />
           </li>
           <li>
-            <Link to="/" onClick={onClose}>Home</Link>
+            <Link to="/" onClick={onClose}>
+              Home
+            </Link>
           </li>
           <li>
-            <Link to="/about" onClick={onClose}>About</Link>
+            <Link to="/about" onClick={onClose}>
+              About
+            </Link>
           </li>
           {userInfo?.email ? (
             <>
-              <li className="cursor-pointer flex items-center space-x-2" onClick={onClose}>
+              <li
+                className="cursor-pointer flex items-center space-x-2"
+                onClick={onClose}
+              >
                 <Badge count={3}>
                   <MessageOutlined className="text-2xl text-gray-700" />
                 </Badge>
               </li>
-              <li className="cursor-pointer flex items-center space-x-2" onClick={onClose}>
+              <li
+                className="cursor-pointer flex items-center space-x-2"
+                onClick={onClose}
+              >
                 <Badge count={5}>
                   <BellOutlined className="text-2xl text-gray-700" />
                 </Badge>
@@ -188,7 +212,10 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, handleThemeChange }) => {
                   />
                 </Link>
                 <LogoutOutlined
-                  onClick={() => { handleLogout(); onClose(); }}
+                  onClick={() => {
+                    handleLogout();
+                    onClose();
+                  }}
                   className="text-3xl text-red-600 font-bold"
                   title="Logout"
                 />
@@ -204,7 +231,10 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, handleThemeChange }) => {
             </>
           ) : (
             <li
-              onClick={() => { navigate("/register"); onClose(); }}
+              onClick={() => {
+                navigate("/register");
+                onClose();
+              }}
               className="cursor-pointer border px-4 py-2 text-lg font-bold rounded-md shadow-sm bg-blue-500 text-white"
             >
               Register

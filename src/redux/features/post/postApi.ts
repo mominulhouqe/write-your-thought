@@ -1,29 +1,30 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { baseApi } from "../api/baseApi";
 
 // Define types for the query parameters and body data
-interface GetAllPostsParams {
-  searchValue?: string;
-  pageValue?: number;
-  limitValue?: number;
-}
+// interface GetAllPostsParams {
+//   searchValue?: string;
+//   pageValue?: number;
+//   limitValue?: number;
+// }
 
-interface GetAllPostsByUserIdParams extends GetAllPostsParams {
-  userId: string;
-}
+// interface GetAllPostsByUserIdParams extends GetAllPostsParams {
+//   userId: string;
+// }
 
-interface AddLikeParams {
-  postId: string;
-  [key: string]: any; // Add specific fields if known
-}
+// interface AddLikeParams {
+//   postId: string;
+//   [key: string]: any; // Add specific fields if known
+// }
 
 interface PostIdParam {
   postId: string;
 }
 
 const postApi = baseApi.injectEndpoints({
-  endpoints: (builder :any) => ({
+  endpoints: (builder: any) => ({
     getAllPosts: builder.query({
-      query: ({ searchValue, pageValue, limitValue }: GetAllPostsParams) => {
+      query: ({ searchValue, pageValue, limitValue }: any) => {
         let url = "/posts/get-all";
         const params = new URLSearchParams();
 
@@ -43,7 +44,7 @@ const postApi = baseApi.injectEndpoints({
       providesTags: ["Post"],
     }),
     getAllPostsByUserId: builder.query({
-      query: ({ userId, searchValue, pageValue, limitValue }: GetAllPostsByUserIdParams) => {
+      query: ({ userId, searchValue, pageValue, limitValue }:any) => {
         let url = `/posts/get-posts/${userId}`;
         const params = new URLSearchParams();
 
@@ -70,7 +71,7 @@ const postApi = baseApi.injectEndpoints({
       providesTags: ["Post"],
     }),
     addPost: builder.mutation({
-      query: (data: any) => ({
+      query: (data:any) => ({
         url: "/posts/create-post",
         method: "POST",
         body: data,
@@ -78,7 +79,7 @@ const postApi = baseApi.injectEndpoints({
       invalidatesTags: ["Post"],
     }),
     addLike: builder.mutation({
-      query: ({ postId, ...data }: AddLikeParams) => ({
+      query: ({ postId, ...data }:any) => ({
         url: `/posts/edit/add-like/${postId}`,
         method: "PATCH",
         body: data,
@@ -86,7 +87,7 @@ const postApi = baseApi.injectEndpoints({
       invalidatesTags: ["Post"],
     }),
     deletePost: builder.mutation({
-      query: ({ postId }: PostIdParam) => ({
+      query: (postId:string) => ({
         url: `/posts/delete/${postId}`,
         method: "DELETE",
       }),

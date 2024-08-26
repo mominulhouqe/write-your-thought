@@ -71,7 +71,7 @@ const PostBox: React.FC = () => {
       setIsModalVisible(false);
       setPostText("");
       setFileList([]);
-    } catch (error:any) {
+    } catch (error: any) {
       message.error(error?.message || error?.data?.message);
     }
   };
@@ -166,4 +166,3 @@ const PostBox: React.FC = () => {
 };
 
 export default PostBox;
-

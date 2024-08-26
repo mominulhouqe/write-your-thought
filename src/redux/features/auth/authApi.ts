@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { baseApi } from "../api/baseApi";
 
 const authApi = baseApi.injectEndpoints({
-  endpoints: (builder :any) => ({
+  endpoints: (builder: any) => ({
     registerUser: builder.mutation({
-      query: (formData:any) => ({
+      query: (formData: any) => ({
         url: "/users/create-user",
         method: "POST",
         body: formData,

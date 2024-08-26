@@ -11,7 +11,7 @@ import Loading from "../../components/Loading";
 const UserProfile: React.FC = () => {
   const userInfo = useAppSelector(useUserInfo) as unknown as UserInfo;
 
-  const { data, isLoading } = useGetAllPostsByUserIdQuery(
+  const { data } = useGetAllPostsByUserIdQuery(
     {
       userId: userInfo?.user_id,
     },

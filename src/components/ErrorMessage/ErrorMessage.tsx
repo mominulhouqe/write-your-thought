@@ -1,4 +1,5 @@
-const ErrorMessage = ({ errorMessage }:any) => {
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const ErrorMessage = ({ errorMessage }: any) => {
   return (
     <div
       className="mb-4 mt-8 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"

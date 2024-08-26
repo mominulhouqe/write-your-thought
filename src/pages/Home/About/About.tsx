@@ -4,6 +4,7 @@ import { LinkedinOutlined, GithubOutlined } from '@ant-design/icons';
 import { motion } from 'framer-motion';
 import momin from "../../../assets/mominn-removebg-preview.png"
 import saif from "../../../assets/122553771.jpg"
+import { Link } from 'react-router-dom';
 const { Meta } = Card;
 
 const About = () => {
@@ -80,12 +81,12 @@ const About = () => {
                                               
                                             />
                                             <div className="flex justify-center mt-4 space-x-4">
-                                                <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="text-xl text-blue-700 hover:text-blue-800">
+                                                <Link to={member.linkedin} target="_blank" rel="noopener noreferrer" className="text-xl text-blue-700 hover:text-blue-800">
                                                     <LinkedinOutlined />
-                                                </a>
-                                                <a href={member.github} target="_blank" rel="noopener noreferrer" className="text-xl text-gray-700 hover:text-gray-900">
+                                                </Link>
+                                                <Link to={member.github} target="_blank" rel="noopener noreferrer" className="text-xl text-gray-700 hover:text-gray-900">
                                                     <GithubOutlined />
-                                                </a>
+                                                </Link>
                                             </div>
                                         </div>
                                     </Card>

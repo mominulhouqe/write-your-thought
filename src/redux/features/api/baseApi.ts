@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   createApi,
   fetchBaseQuery,
@@ -11,7 +12,8 @@ import type {
 } from "@reduxjs/toolkit/query";
 import type { RootState } from "../../store";
 
-const baseUrl = "https://mominul-backend.vercel.app/api/v2";
+// export const baseUrl = "http://localhost:8000/api/v2";
+export const baseUrl = "https://mominul-backend.onrender.com/api/v2";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: baseUrl,
@@ -58,7 +60,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
   return result;
 };
 
-export const baseApi:any = createApi({
+export const baseApi: any = createApi({
   reducerPath: "baseApi",
   baseQuery: baseQueryWithRefreshToken,
   tagTypes: ["User", "Post", "LikeComment"],

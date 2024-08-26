@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
 import { Button } from "antd";
 import { useForm } from "react-hook-form";
@@ -9,6 +10,7 @@ import BorderCircle from "../../components/BorderCicle";
 import { Link } from "react-router-dom";
 import { useRegisterUserMutation } from "../../redux/features/auth/authApi";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
+import { baseUrl } from "../../redux/features/api/baseApi";
 
 interface RegisterFormInputs {
   email: string;
@@ -45,14 +47,14 @@ const Register: React.FC = () => {
       const res = await registerUser(formData).unwrap();
       setSuccessMessage(res?.message);
       setErrorMessage("");
-    } catch (error) {
-      setErrorMessage((error as any)?.data?.message);
+    } catch (error: any) {
+      setErrorMessage(error?.data?.message);
       setSuccessMessage("");
     }
   };
 
   const handleGoogleSignIn = () => {
-    window.location.href = ".https://mominul-backend.vercel.app/api/v2/users/google";
+    window.location.href = `${baseUrl}/users/google`;
   };
 
   return (

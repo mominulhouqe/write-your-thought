@@ -1,6 +1,11 @@
 import React from "react";
-import {  Dropdown, MenuProps } from "antd";
-import { UserOutlined, SettingOutlined, LogoutOutlined, DownOutlined } from "@ant-design/icons";
+import { Dropdown, MenuProps } from "antd";
+import {
+  UserOutlined,
+  SettingOutlined,
+  LogoutOutlined,
+  DownOutlined,
+} from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
@@ -9,9 +14,9 @@ interface ProfileDropdownProps {
 }
 
 const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ onLogout }) => {
-  const items: MenuProps['items'] = [
+  const items: MenuProps["items"] = [
     {
-      key: '0',
+      key: "0",
       label: (
         <Link to="/user-profile">
           <UserOutlined /> Profile
@@ -19,7 +24,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ onLogout }) => {
       ),
     },
     {
-      key: '1',
+      key: "1",
       label: (
         <Link to="/settings">
           <SettingOutlined /> Settings
@@ -27,10 +32,10 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ onLogout }) => {
       ),
     },
     {
-      type: 'divider',
+      type: "divider",
     },
     {
-      key: '3',
+      key: "3",
       label: (
         <div onClick={onLogout}>
           <LogoutOutlined /> Logout
@@ -40,7 +45,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ onLogout }) => {
   ];
 
   return (
-    <Dropdown menu={{ items }} trigger={['click']}>
+    <Dropdown menu={{ items }} trigger={["click"]}>
       <motion.a
         onClick={(e) => e.preventDefault()}
         initial={{ opacity: 0 }}
