@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { UserInfo } from "../types/types"; // Adjust the import path as necessary
 import LoginPrompt from "../../components/LoginPromt";
 import { useGetAllPostsByUserIdQuery } from "../../redux/features/post/postApi";
-import Loading from "../../components/Loading";
+// import Loading from "../../components/Loading";
 
 const UserProfile: React.FC = () => {
   const userInfo = useAppSelector(useUserInfo) as unknown as UserInfo;
@@ -39,9 +39,9 @@ const UserProfile: React.FC = () => {
   if (!userInfo?.email) {
     return <LoginPrompt />;
   }
-  if (isLoading) {
-    return <Loading className="mt-6 min-h-screen" />;
-  }
+  // if (isLoading) {
+  //   return <Loading className="mt-6 min-h-screen" />;
+  // }
   return (
     <motion.div
       variants={containerVariants}
